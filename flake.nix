@@ -31,7 +31,7 @@
 	  }
 	  hyprland.homeManagerModules.default
 	];
-	extraSpecialArgs = { inherit nix-colors };
+	extraSpecialArgs = { inherit nix-colors; };
       };
     };
 
