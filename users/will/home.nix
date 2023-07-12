@@ -1,9 +1,10 @@
 { config, pkgs, lib, nix-colors, ... }: {
+  imports = [nix-colors.homeManagerModules.default];
   # Home Manager needs a bit of information about you and the paths it should
   # manage.
   home.username = "will";
   home.homeDirectory = "/home/will";
-  
+
   nixpkgs.config.allowUnfree = true;
   # This value determines the Home Manager release that your configuration is
   # compatible with. This helps avoid breakage when a new Home Manager release
@@ -20,6 +21,8 @@
     gtk.enable = true;
     x11.enable = true;
   };
+
+  colorScheme = nix-colors.colorSchemes.tokyo-night-storm;
   # The home.packages option allows you to install Nix packages into your
   # environment.
   home.packages = with pkgs; [
@@ -28,7 +31,6 @@
     # pkgs.hello
     nerdfonts
     neovim
-    alacritty
     yt-dlp
     hyprpicker
     git
@@ -57,6 +59,42 @@
     # '')
   ];
  
+  programs.alacritty = {
+    enable = true;
+    settings = {
+      colors = {
+        primary = { 
+	  background = "0x${config.colorScheme.colors.base00}";
+	  foreground = "0x${config.colorScheme.colors.base05}";
+	};  
+	cursor = {
+	  text = "0x${config.colorScheme.colors.base00}";
+	  cursor = "0x${config.colorScheme.colors.base05}";
+	};  
+	normal = { 
+	  black = "0x${config.colorScheme.colors.base00}";
+	  red = "0x${config.colorScheme.colors.base08}";
+	  green = "0x${config.colorScheme.colors.base0B}";
+	  yellow = "0x${config.colorScheme.colors.base0A}";
+	  blue = "0x${config.colorScheme.colors.base0D}";
+	  magenta = "0x${config.colorScheme.colors.base0E}";
+	  cyan = "0x${config.colorScheme.colors.base0C}";
+	  white = "0x${config.colorScheme.colors.base05}";
+	};  
+	bright = { 
+	  black = "0x${config.colorScheme.colors.base03}";
+	  red = "0x${config.colorScheme.colors.base09}";
+	  green = "0x${config.colorScheme.colors.base01}";
+	  yellow = "0x${config.colorScheme.colors.base02}";
+	  blue = "0x${config.colorScheme.colors.base04}";
+	  magenta = "0x${config.colorScheme.colors.base06}";
+	  cyan = "0x${config.colorScheme.colors.base0F}";
+	  white = "0x${config.colorScheme.colors.base07}";
+	};  
+      };	  
+    };
+  };
+
   wayland.windowManager.hyprland = {
     enable = true;
     nvidiaPatches = true;
@@ -70,13 +108,18 @@
       }
 
       bind = SUPER, Return, exec, alacritty
-      bind = SUPER, D, exec, wofi --show run
 
       monitor = DP-2,1920x1080@75,0x0,1
       
       env = WLR_NO_HARDWARE_CURSORS,1
       
       exec-once = waybar
+
+      exec-once = swaybg -c "##${config.colorScheme.colors.base00}"
+      general {
+        col.active_border = rgb(${config.colorScheme.colors.base05})
+	col.inactive_border = rgb(${config.colorScheme.colors.base04})
+      }
       
       exec-once = playerctld daemon
       bind =, XF86AudioPlay, exec, playerctl play-pause
@@ -136,6 +179,8 @@
       bind = SUPER, mouse_down, workspace, e+1
       bind = SUPER, mouse_up, workspace, e-1
 
+      bind = SUPER, D, exec, wofi --show run
+
       input {
         repeat_delay = 250
 	repeat_rate = 35
@@ -145,7 +190,31 @@
 
   programs.wofi = {
     enable = true;
+    style = ''
+      * {
+        font-family: monospace;
+      }
 
+      #window {
+        background-color: #${config.colorScheme.colors.base00};
+      }
+ 
+      #entry:selected {
+        background-color: #${config.colorScheme.colors.base02};
+      }
+
+      #text {
+        color: #${config.colorScheme.colors.base0B};
+	padding: 0.2rem 0.5rem;
+      }
+
+      #input {
+        color: #${config.colorScheme.colors.base05};
+	background-color: #${config.colorScheme.colors.base01};
+	border: none;
+	border-radius: 0;
+      }
+    '';
   };
 
   programs.waybar = {
@@ -163,8 +232,8 @@
    style = ''
      * {
        font-family: monospace;
-       color: #fff;
-       background-color: #444
+       color: #${config.colorScheme.colors.base05};
+       background-color: #${config.colorScheme.colors.base01}
      }
 
      #workspaces button {
@@ -178,7 +247,11 @@
      }
 
      #workspaces button.active {
-       color: #F00
+       color: #F00;
+     }
+
+     #cpu, #memory {
+       padding: 0 0.5rem;
      }
    '';
   };
