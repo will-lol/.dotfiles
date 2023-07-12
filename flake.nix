@@ -9,7 +9,7 @@
     nix-colors.url = "github:misterio77/nix-colors";
   };
 
-  outputs = { nixpkgs, home-manager, hyprland, ... }:
+  outputs = { nixpkgs, home-manager, hyprland, nix-colors, ... }:
   let 
     system = "x86_64-linux";
     pkgs = import nixpkgs {
