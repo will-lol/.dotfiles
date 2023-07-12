@@ -1,10 +1,4 @@
-{ config, pkgs, lib, ... }: let 
-  flake-compat = builtins.fetchTarball "https://github.com/edolstra/flake-compat/archive/master.tar.gz";
-  hyprland = (import flake-compat {
-    src = builtins.fetchTarball "https://github.com/hyprwm/Hyprland/archive/master.tar.gz";
-  }).defaultNix;
-in {
-  imports = [hyprland.homeManagerModules.default];
+{ config, pkgs, lib, ... }: {
   # Home Manager needs a bit of information about you and the paths it should
   # manage.
   home.username = "will";
@@ -42,6 +36,7 @@ in {
     firefox
     mpv
     playerctl
+    swayimg
     corefonts
     flatpak
     swaybg
