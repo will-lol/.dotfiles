@@ -224,7 +224,7 @@
   # if you don't want to manage your shell through Home Manager.
   home.sessionVariables = {
     WLR_NO_HARDWARE_CURSORS = "1";
-    # EDITOR = "emacs";
+    EDITOR = "nvim";
   };
 
   # Let Home Manager install and manage itself.
