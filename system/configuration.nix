@@ -66,7 +66,7 @@
 
   environment.systemPackages = with pkgs; [
     libva-utils 
-    gitFull
+    git
     libsecret
     ifuse
     pinentry-curses
