@@ -37,6 +37,7 @@
     hyprpicker
     ffmpeg
     audacity
+    tofi
     firefox
     mpv
     playerctl
@@ -64,7 +65,7 @@
   programs.git = {
     enable = true;
     extraConfig = {
-      credential.helper = "libsecret";
+      credential.helper = "${pkgs.git.override {withLibsecret = true;}}/bin/git-credential-libsecret";
     };
   };
 
@@ -168,40 +169,11 @@
       bind = SUPER, mouse_down, workspace, e+1
       bind = SUPER, mouse_up, workspace, e-1
 
-      bind = SUPER, D, exec, wofi --show run
+      bind = SUPER, D, exec, tofi-run | xargs hyprctl dispatch exec -- 
 
       input {
         repeat_delay = 250
 	repeat_rate = 35
-      }
-    '';
-  };
-
-  programs.wofi = {
-    enable = true;
-    style = ''
-      * {
-        font-family: monospace;
-      }
-
-      #window {
-        background-color: #${config.colorScheme.colors.base00};
-      }
- 
-      #entry:selected {
-        background-color: #${config.colorScheme.colors.base02};
-      }
-
-      #text {
-        color: #${config.colorScheme.colors.base0B};
-	padding: 0.2rem 0.5rem;
-      }
-
-      #input {
-        color: #${config.colorScheme.colors.base05};
-	background-color: #${config.colorScheme.colors.base01};
-	border: none;
-	border-radius: 0;
       }
     '';
   };
@@ -282,6 +254,40 @@
     #   org.gradle.console=verbose
     #   org.gradle.daemon.idletimeout=3600000
     # '';
+  };
+
+  home.file = {
+    ".config/tofi/config".text = ''
+       font = "${pkgs.nerdfonts}/share/fonts/truetype/NerdFonts/BlexMonoNerdFont-Regular.ttf" 
+       width = 100%
+       height = 100%
+       border-width = 0
+       outline-width = 0
+       padding-left = 35%
+       padding-top = 35%
+       result-spacing = 25
+       num-results = 5
+       background-color = #0006
+       selection-color = #${config.colorScheme.colors.base0E}
+    ''; 
+  };
+
+  
+  home.file = {
+    ".config/fontconfig/fonts.conf".text = ''
+      <?xml version="1.0"?>
+      <!DOCTYPE fontconfig SYSTEM "urn:fontconfig:fonts.dtd">
+      <fontconfig>
+        <match target="pattern">
+	<test name="family" qual="any">
+	  <string>monospace</string>
+	</test>
+	<edit binding="strong" mode="prepend" name="family">
+	  <string>BlexMono Nerd Font Mono</string>
+	</edit>
+	</match>
+      </fontconfig>
+    '';
   };
 
   # You can also manage environment variables but you will have to manually
