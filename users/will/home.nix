@@ -31,9 +31,11 @@
     # pkgs.hello
     nerdfonts
     neovim
+    htop-vim
     yt-dlp
+    obs-studio
     hyprpicker
-    git
+    ffmpeg
     audacity
     firefox
     mpv
@@ -58,7 +60,14 @@
     #   echo "Hello, ${config.home.username}!"
     # '')
   ];
- 
+
+  programs.git = {
+    enable = true;
+    extraConfig = {
+      credential.helper = "libsecret";
+    };
+  };
+
   programs.alacritty = {
     enable = true;
     settings = {
@@ -70,26 +79,6 @@
 	cursor = {
 	  text = "0x${config.colorScheme.colors.base00}";
 	  cursor = "0x${config.colorScheme.colors.base05}";
-	};  
-	normal = { 
-	  black = "0x${config.colorScheme.colors.base00}";
-	  red = "0x${config.colorScheme.colors.base08}";
-	  green = "0x${config.colorScheme.colors.base0B}";
-	  yellow = "0x${config.colorScheme.colors.base0A}";
-	  blue = "0x${config.colorScheme.colors.base0D}";
-	  magenta = "0x${config.colorScheme.colors.base0E}";
-	  cyan = "0x${config.colorScheme.colors.base0C}";
-	  white = "0x${config.colorScheme.colors.base05}";
-	};  
-	bright = { 
-	  black = "0x${config.colorScheme.colors.base03}";
-	  red = "0x${config.colorScheme.colors.base09}";
-	  green = "0x${config.colorScheme.colors.base01}";
-	  yellow = "0x${config.colorScheme.colors.base02}";
-	  blue = "0x${config.colorScheme.colors.base04}";
-	  magenta = "0x${config.colorScheme.colors.base06}";
-	  cyan = "0x${config.colorScheme.colors.base0F}";
-	  white = "0x${config.colorScheme.colors.base07}";
 	};  
       };	  
     };
@@ -165,16 +154,16 @@
       bind = SUPER, 9, workspace, 9
       bind = SUPER, 0, workspace, 10
 
-      bind = SUPER SHIFT, 1, movetoworkspace, 1
-      bind = SUPER SHIFT, 2, movetoworkspace, 2
-      bind = SUPER SHIFT, 3, movetoworkspace, 3
-      bind = SUPER SHIFT, 4, movetoworkspace, 4
-      bind = SUPER SHIFT, 5, movetoworkspace, 5
-      bind = SUPER SHIFT, 6, movetoworkspace, 6
-      bind = SUPER SHIFT, 7, movetoworkspace, 7
-      bind = SUPER SHIFT, 8, movetoworkspace, 8
-      bind = SUPER SHIFT, 9, movetoworkspace, 9
-      bind = SUPER SHIFT, 0, movetoworkspace, 10
+      bind = SUPER SHIFT, 1, movetoworkspacesilent, 1
+      bind = SUPER SHIFT, 2, movetoworkspacesilent, 2
+      bind = SUPER SHIFT, 3, movetoworkspacesilent, 3
+      bind = SUPER SHIFT, 4, movetoworkspacesilent, 4
+      bind = SUPER SHIFT, 5, movetoworkspacesilent, 5
+      bind = SUPER SHIFT, 6, movetoworkspacesilent, 6
+      bind = SUPER SHIFT, 7, movetoworkspacesilent, 7
+      bind = SUPER SHIFT, 8, movetoworkspacesilent, 8
+      bind = SUPER SHIFT, 9, movetoworkspacesilent, 9
+      bind = SUPER SHIFT, 0, movetoworkspacesilent, 10
 
       bind = SUPER, mouse_down, workspace, e+1
       bind = SUPER, mouse_up, workspace, e-1
@@ -227,6 +216,11 @@
        modules-left = ["hyprland/workspaces"];
        modules-center = ["clock"];
        modules-right = ["wirepumber" "cpu" "memory"];
+       clock = {
+         format = "{:%H:%M}";
+	 tooltip = true;
+	 tooltip-format = "{:%d/%m/%Y}";
+       };
      };
    };
    style = ''
@@ -258,8 +252,10 @@
 
   services.mako = {
     enable = true;
-    borderColor = "#FFFFFFFF";
-    defaultTimeout = 5000;
+    borderColor = "#${config.colorScheme.colors.base04}";
+    textColor = "#${config.colorScheme.colors.base05}";
+    defaultTimeout = 3000;
+    backgroundColor = "#${config.colorScheme.colors.base01}";
   };
 
   # Home Manager is pretty good at managing dotfiles. The primary way to manage
@@ -271,7 +267,10 @@
       border_size = 2
       bar_padding = 0
       border_offset = 5
-      background_color = 00000080
+      background_color = ${config.colorScheme.colors.base01}
+      border_color = ${config.colorScheme.colors.base04}
+      bar_color = ${config.colorScheme.colors.base05}
+      height = 30
     '';
     # # Building this configuration will create a copy of 'dotfiles/screenrc' in
     # # the Nix store. Activating the configuration will then make '~/.screenrc' a

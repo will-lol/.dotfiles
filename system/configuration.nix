@@ -46,10 +46,32 @@
   # Enable the X11 windowing system.
   # services.xserver.enable = true;
 
-  # nvidia support
+  services.usbmuxd = {
+    enable = true;
+    package = pkgs.usbmuxd2;
+  };
+  
+  # gnupg
+  services.pcscd.enable = true;
+  programs.gnupg.agent = {
+    enable = true;
+    pinentryFlavor = "curses";
+    enableSSHSupport = true;
+  };
+
+  # gnome-keyring
+  services.gnome.gnome-keyring.enable = true;
+  programs.dconf.enable = true;
+  services.dbus.packages = with pkgs; [ gnome.seahorse ];
+
   environment.systemPackages = with pkgs; [
     libva-utils 
+    gitFull
+    libsecret
+    ifuse
+    pinentry-curses
     cudatoolkit 
+    libimobiledevice
     nvtop-nvidia
   ];
   hardware.opengl = {
