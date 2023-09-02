@@ -18,6 +18,7 @@
       config = { allowUnfree = true; };
     };
     lib = nixpkgs.lib;
+    localpkgs = import ./localPackages pkgs; 
   in {
     homeManagerConfigurations = {
       will = home-manager.lib.homeManagerConfiguration {
@@ -32,7 +33,7 @@
 	  }
 	  hyprland.homeManagerModules.default
 	];
-	extraSpecialArgs = { inherit nix-colors; };
+	extraSpecialArgs = { inherit nix-colors; inherit localpkgs; };
       };
     };
 

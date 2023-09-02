@@ -1,5 +1,5 @@
-{ config, pkgs, lib, nix-colors, ... }: {
-  imports = [nix-colors.homeManagerModules.default];
+{ config, pkgs, lib, nix-colors, localpkgs, ... }: {
+  imports = [ nix-colors.homeManagerModules.default ./nvim.nix ];
   # Home Manager needs a bit of information about you and the paths it should
   # manage.
   home.username = "will";
@@ -25,29 +25,43 @@
   colorScheme = nix-colors.colorSchemes.tokyo-night-storm;
   # The home.packages option allows you to install Nix packages into your
   # environment.
+  fonts.fontconfig.enable = true;
   home.packages = with pkgs; [
     # # Adds the 'hello' command to your environment. It prints a friendly
     # # "Hello, world!" when run.
     # pkgs.hello
+    mixxx
     nerdfonts
-    neovim
     htop-vim
+    calibre
     yt-dlp
+    gcc
+    cliphist
     obs-studio
+    kalker
+    wl-clipboard
     hyprpicker
+    nodePackages.vscode-langservers-extracted
     ffmpeg
     audacity
     tofi
+    zotero
     firefox
     mpv
     playerctl
     swayimg
+    unzip
+    pipes-rs
     corefonts
     flatpak
     swaybg
     wob
     liberation_ttf
-    clipman
+    flameshot
+    libre-franklin
+    libre-baskerville
+    inter
+    garamond-libre
     # # It is sometimes useful to fine-tune packages, for example, by applying
     # # overrides. You can do that directly here, just don't forget the
     # # parentheses. Maybe you want to install Nerd Fonts with a limited number of
@@ -61,6 +75,21 @@
     #   echo "Hello, ${config.home.username}!"
     # '')
   ];
+
+  programs.neovim = {
+    enable = true;
+    defaultEditor = true;
+    plugins = with pkgs.vimPlugins; [ 
+      coq_nvim 
+      nvim-treesitter.withAllGrammars 
+      nvim-lspconfig 
+      telescope-nvim 
+      plenary-nvim 
+      autoclose-nvim 
+    ];
+    extraLuaConfig = ''
+    '';
+  };
 
   programs.git = {
     enable = true;
@@ -258,17 +287,28 @@
 
   home.file = {
     ".config/tofi/config".text = ''
-       font = "${pkgs.nerdfonts}/share/fonts/truetype/NerdFonts/BlexMonoNerdFont-Regular.ttf" 
+       font = "${pkgs.nerdfonts}/share/fonts/truetype/NerdFonts/FiraCodeNerdFont-Regular.ttf" 
        width = 100%
-       height = 100%
+       height = 100%  
        border-width = 0
        outline-width = 0
+       text-cursor = true
        padding-left = 35%
        padding-top = 35%
        result-spacing = 25
        num-results = 5
-       background-color = #0006
+       background-color = #${config.colorScheme.colors.base00}99
+       default-result-background = #${config.colorScheme.colors.base00}
+       default-result-color = #${config.colorScheme.colors.base03}
+       default-result-background-padding = 10
+       selection-background = #${config.colorScheme.colors.base02}
+       selection-background-padding = 10
        selection-color = #${config.colorScheme.colors.base0E}
+       selection-match-color = #${config.colorScheme.colors.base0C}
+       input-color = #${config.colorScheme.colors.base0C}
+       prompt-text = "run " 
+       prompt-color = #${config.colorScheme.colors.base05}
+       result-spacing = 30
     ''; 
   };
 
@@ -283,9 +323,25 @@
       <string>monospace</string>
     </test>
     <edit binding="strong" mode="prepend" name="family">
-      <string>BlexMono Nerd Font Mono</string>
+      <string>FiraCode Nerd Font</string>
     </edit>
-   </match>
+  </match> 
+  <match target="pattern">
+    <test name="family" qual="any">
+      <string>sans-serif</string>
+    </test>
+    <edit binding="strong" mode="prepend" name="family">
+      <string>Inter</string>
+    </edit>
+  </match>
+  <match target="pattern">
+    <test name="family" qual="any">
+      <string>serif</string>
+    </test>
+    <edit binding="strong" mode="prepend" name="family">
+      <string>Garamond Libre</string>
+    </edit>
+  </match>
 </fontconfig>
     '';
   };
