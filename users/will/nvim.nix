@@ -80,11 +80,20 @@ require('lazy').setup({
   'tpope/vim-fugitive',
   'tpope/vim-rhubarb',
 
+  -- Templ tree sitter parser companion plugin
+  'vrischmann/tree-sitter-templ',
+
   -- Detect tabstop and shiftwidth automatically
   'tpope/vim-sleuth',
 
   -- NOTE: This is where your plugins related to LSP can be installed.
   --  The configuration is done below. Search for lspconfig to find it below.
+  {
+    'ThePrimeagen/harpoon',
+    dependencies = {
+      'nvim-lua/plenary.nvim',
+    },
+  },
   {
     -- LSP Configuration & Plugins
     'neovim/nvim-lspconfig',
@@ -101,7 +110,11 @@ require('lazy').setup({
       'folke/neodev.nvim',
     },
   },
-
+  {
+    'windwp/nvim-autopairs',
+    event = "InsertEnter",
+    opts = {} -- this is equalent to setup({}) function
+  },
   {
     -- Autocompletion
     'hrsh7th/nvim-cmp',
@@ -168,10 +181,8 @@ require('lazy').setup({
     'lukas-reineke/indent-blankline.nvim',
     -- Enable `lukas-reineke/indent-blankline.nvim`
     -- See `:help indent_blankline.txt`
-    opts = {
-      char = '┊',
-      show_trailing_blankline_indent = false,
-    },
+    main = 'ibl',
+    opts = {},
   },
 
   -- "gc" to comment visual regions/lines
@@ -274,6 +285,23 @@ vim.keymap.set({ 'n', 'v' }, '<Space>', '<Nop>', { silent = true })
 vim.keymap.set('n', 'k', "v:count == 0 ? 'gk' : 'k'", { expr = true, silent = true })
 vim.keymap.set('n', 'j', "v:count == 0 ? 'gj' : 'j'", { expr = true, silent = true })
 
+-- [[ Configure harpoon ]]
+local mark = require('harpoon.mark')
+local ui = require('harpoon.ui')
+vim.keymap.set('n', 'ma', function() mark.set_current_at(1) end)
+vim.keymap.set('n', 'ms', function() mark.set_current_at(2) end)
+vim.keymap.set('n', 'md', function() mark.set_current_at(3) end)
+vim.keymap.set('n', 'mf', function() mark.set_current_at(4) end)
+vim.keymap.set('n', 'Ma', function() mark.rm_file(1) end)
+vim.keymap.set('n', 'Ms', function() mark.rm_file(2) end)
+vim.keymap.set('n', 'Md', function() mark.rm_file(3) end)
+vim.keymap.set('n', 'Mf', function() mark.rm_file(4) end)
+vim.keymap.set('n', '<M-a>', function() ui.nav_file(1) end)
+vim.keymap.set('n', '<M-s>', function() ui.nav_file(2) end)
+vim.keymap.set('n', '<M-d>', function() ui.nav_file(3) end)
+vim.keymap.set('n', '<M-f>', function() ui.nav_file(4) end)
+vim.keymap.set('n', '<C-e>', ui.toggle_quick_menu)
+
 -- [[ Highlight on yank ]]
 -- See `:help vim.highlight.on_yank()`
 local highlight_group = vim.api.nvim_create_augroup('YankHighlight', { clear = true })
@@ -319,11 +347,23 @@ vim.keymap.set('n', '<leader>sw', require('telescope.builtin').grep_string, { de
 vim.keymap.set('n', '<leader>sg', require('telescope.builtin').live_grep, { desc = '[S]earch by [G]rep' })
 vim.keymap.set('n', '<leader>sd', require('telescope.builtin').diagnostics, { desc = '[S]earch [D]iagnostics' })
 
+-- [[ Configure indent-blankline ]]
+require('ibl').setup {}
+
 -- [[ Configure Treesitter ]]
 -- See `:help nvim-treesitter`
+local treesitter_parser_config = require 'nvim-treesitter.parsers'.get_parser_configs()
+treesitter_parser_config.templ = {
+  install_info = {
+    url = "https://github.com/vrischmann/tree-sitter-templ.git",
+    files = {"src/parser.c", "src/scanner.c"},
+    branch = "master",
+  }
+}
+vim.treesitter.language.register('templ', 'templ')
 require('nvim-treesitter.configs').setup {
   -- Add languages to be installed here that you want installed for treesitter
-  ensure_installed = { 'c', 'cpp', 'go', 'lua', 'python', 'rust', 'tsx', 'javascript', 'typescript', 'vimdoc', 'vim' },
+  ensure_installed = { 'c', 'cpp', 'go', 'lua', 'python', 'rust', 'tsx', 'javascript', 'typescript', 'vimdoc', 'vim', 'templ' },
 
   -- Autoinstall languages that are not installed. Defaults to false (but you can change for yourself!)
   auto_install = false,
@@ -434,6 +474,7 @@ local on_attach = function(_, bufnr)
   vim.api.nvim_buf_create_user_command(bufnr, 'Format', function(_)
     vim.lsp.buf.format()
   end, { desc = 'Format current buffer with LSP' })
+  nmap('f', vim.lsp.buf.format, '[F]ormat')
 end
 
 -- Enable the following language servers
@@ -444,13 +485,20 @@ end
 --
 --  If you want to override the default filetypes that your language server will attach to you can
 --  define the property 'filetypes' to the map in question.
+vim.filetype.add({
+  extension = {
+    templ = 'templ',
+  },
+})
 local servers = {
   -- clangd = {},
   -- gopls = {},
   -- pyright = {},
   -- rust_analyzer = {},
+  -- templ = { filetypes = { 'templ' } },
   -- tsserver = {},
-  -- html = { filetypes = { 'html', 'twig', 'hbs'} },
+  -- html = { filetypes = { 'html', 'twig', 'hbs', 'templ' } },
+  -- tailwindcss-language-server = { filetypes = { 'templ', 'html', 'jsx', 'tsx' } },
 
   lua_ls = {
     Lua = {

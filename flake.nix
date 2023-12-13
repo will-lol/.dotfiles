@@ -8,9 +8,10 @@
     hyprland.url = "github:hyprwm/Hyprland";
     hyprland.inputs.nixpkgs.follows = "nixpkgs";
     nix-colors.url = "github:misterio77/nix-colors";
+    nur.url = "github:nix-community/NUR";
   };
 
-  outputs = { nixpkgs, home-manager, hyprland, nix-colors, ... }:
+  outputs = { nixpkgs, home-manager, hyprland, nix-colors, nur, ... }:
   let 
     system = "x86_64-linux";
     pkgs = import nixpkgs {
@@ -32,6 +33,7 @@
 	    };
 	  }
 	  hyprland.homeManagerModules.default
+	  nur.nixosModules.nur
 	];
 	extraSpecialArgs = { inherit nix-colors; inherit localpkgs; };
       };

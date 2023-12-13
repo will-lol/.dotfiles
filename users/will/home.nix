@@ -31,8 +31,12 @@
     # # "Hello, world!" when run.
     # pkgs.hello
     mixxx
+    aria2
+    nodejs
     nerdfonts
+    entr
     htop-vim
+    tree-sitter
     calibre
     yt-dlp
     gcc
@@ -45,8 +49,7 @@
     ffmpeg
     audacity
     tofi
-    zotero
-    firefox
+    # zotero
     mpv
     playerctl
     swayimg
@@ -62,6 +65,7 @@
     libre-baskerville
     inter
     garamond-libre
+    lunar-client
     # # It is sometimes useful to fine-tune packages, for example, by applying
     # # overrides. You can do that directly here, just don't forget the
     # # parentheses. Maybe you want to install Nerd Fonts with a limited number of
@@ -76,19 +80,79 @@
     # '')
   ];
 
-  programs.neovim = {
+  # Setup virtualisation in virt-manager
+  dconf.settings = {
+    "org/virt-manager/virt-manager/connections" = {
+      autoconnect = ["qemu:///system"];
+      uris = ["qemu:///system"];
+    };
+  };
+
+  programs.tmux = {
     enable = true;
-    defaultEditor = true;
-    plugins = with pkgs.vimPlugins; [ 
-      coq_nvim 
-      nvim-treesitter.withAllGrammars 
-      nvim-lspconfig 
-      telescope-nvim 
-      plenary-nvim 
-      autoclose-nvim 
-    ];
-    extraLuaConfig = ''
-    '';
+    clock24 = true;
+
+  };
+
+  programs.firefox = {
+    enable = true;
+    profiles.default = {
+      settings = {
+	"browser.toolbars.bookmarks.visibility" = "never";
+	"browser.newtabpage.enabled" = false; 
+	"browser.startup.homepage" = "about:blank";
+      };
+      extensions = with config.nur.repos.rycee.firefox-addons; [multi-account-containers firefox-translations vimium];
+      search.engines = {
+	"WordReference Conjugate" = {
+	  urls = [{
+	    template = "https://www.wordreference.com/conj/esverbs.aspx?v={searchTerms}";
+	  }];
+	  definedAliases = ["@conj"]; };
+	"WordReference" = {
+	  urls = [{
+	    template = "https://www.wordreference.com/es/translation.asp?tranword={searchTerms}";
+	  }];
+	  definedAliases = ["@word"];
+	};
+	"Reddit - subreddit" = {
+	  urls = [{
+	    template = "https://www.reddit.com/r/{searchTerms}";
+	  }];
+	  definedAliases = ["r/"];
+	};
+	"Reddit" = {
+	  urls = [{
+	    template = "https://www.reddit.com/search/?q={searchTerms}";
+	  }];
+	  definedAliases = ["@reddit"];
+	};
+	"Github" = {
+	  urls = [{
+	    template = "https://github.com/search?q={searchTerms}";
+	  }];
+	  definedAliases = ["@github"];
+	};
+	"Dictionary" = {
+	  urls = [{
+	    template = "https://www.oed.com/search/dictionary/?q={searchTerms}";
+	  }];
+	  definedAliases = ["@dict"];
+	};
+	"es" = {
+	  urls = [{
+	    template = "https://translate.google.com/?sl=es&tl=en&text={searchTerms}&op=translate";
+	  }];
+	  definedAliases = ["@es"];
+	};
+	"en" = {
+	  urls = [{
+	    template = "https://translate.google.com/?sl=en&tl=es&text={searchTerms}&op=translate";
+	  }];
+	  definedAliases = ["@en"];
+	};
+      };
+    };
   };
 
   programs.git = {
@@ -116,7 +180,7 @@
 
   wayland.windowManager.hyprland = {
     enable = true;
-    nvidiaPatches = true;
+    enableNvidiaPatches = true;
     extraConfig = ''
       misc {
         disable_hyprland_logo = true
@@ -357,8 +421,18 @@
   #
   # if you don't want to manage your shell through Home Manager.
   home.sessionVariables = {
-    WLR_NO_HARDWARE_CURSORS = "1";
     EDITOR = "nvim";
+  };
+
+  programs.bash = {
+    enable = true;
+    shellAliases = {
+      calc = "kalker";
+      view = "swayimg";
+      download = "aria2c";
+      copy = "wl-copy";
+      paste = "wl-paste";
+    };
   };
 
   # Let Home Manager install and manage itself.

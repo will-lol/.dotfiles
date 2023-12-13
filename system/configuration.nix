@@ -16,6 +16,8 @@
   security.polkit.enable = true;
 
   virtualisation.docker.enable = true;
+  virtualisation.libvirtd.enable = true;
+  programs.virt-manager.enable = true;
 
   nix = {
     package = pkgs.nixFlakes;
@@ -48,11 +50,9 @@
   # Enable the X11 windowing system.
   # services.xserver.enable = true;
 
-  services.usbmuxd = {
-    enable = true;
-    package = pkgs.usbmuxd2;
-  };
-  
+  # bluetooth
+  services.blueman.enable = true;
+
   # gnupg
   services.pcscd.enable = true;
   programs.gnupg.agent = {
@@ -73,6 +73,7 @@
     ifuse
     pinentry-curses
     cudatoolkit 
+    wget
     libimobiledevice
     nvtop-nvidia
   ];
@@ -98,6 +99,9 @@
     enable = true;
     extraPortals = [ pkgs.xdg-desktop-portal-hyprland ];
   };
+
+  hardware.sane.enable = true;
+
   # Configure keymap in X11
   # services.xserver.layout = "us";
   # services.xserver.xkbOptions = "eurosign:e,caps:escape";
@@ -120,7 +124,7 @@
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.will = {
     isNormalUser = true;
-    extraGroups = [ "wheel" "docker" ]; # Enable ‘sudo’ for the user.
+    extraGroups = [ "wheel" "docker" "scanner" "lp" "libvirtd" ]; # Enable ‘sudo’ for the user.
   };
 
   # List packages installed in system profile. To search, run:
