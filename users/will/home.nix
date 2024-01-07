@@ -31,7 +31,8 @@
     # # "Hello, world!" when run.
     # pkgs.hello
     mixxx
-    flameshot
+    
+    hyprland
     ripgrep
     trashy
     aria2
@@ -184,7 +185,6 @@
   
   wayland.windowManager.hyprland = {
     enable = true;
-    enableNvidiaPatches = true;
     extraConfig = ''
       misc {
         disable_hyprland_logo = true
