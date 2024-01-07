@@ -31,6 +31,9 @@
     # # "Hello, world!" when run.
     # pkgs.hello
     mixxx
+    flameshot
+    ripgrep
+    trashy
     aria2
     nodejs
     nerdfonts
@@ -177,7 +180,8 @@
       };	  
     };
   };
-
+  
+  
   wayland.windowManager.hyprland = {
     enable = true;
     enableNvidiaPatches = true;
@@ -192,7 +196,7 @@
 
       bind = SUPER, Return, exec, alacritty
 
-      monitor = DP-2,1920x1080@75,0x0,1
+      monitor = DP-1,1920x1080@75,0x0,1
       
       env = WLR_NO_HARDWARE_CURSORS,1
       

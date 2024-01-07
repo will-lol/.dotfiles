@@ -13,6 +13,7 @@
   # Use the systemd-boot EFI boot loader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
+  boot.loader.grub.configurationLimit = 10;
   security.polkit.enable = true;
 
   virtualisation.docker.enable = true;
@@ -26,11 +27,15 @@
     '';
   };
 
+  fileSystems."/mnt/shared" = {
+    device = "//192.168.1.26/public";
+    fsType = "cifs";
+  };
+
   networking.hostName = "nixos"; # Define your hostname.
   # Pick only one of the below networking options.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
   networking.networkmanager.enable = true;  # Easiest to use and most distros use this by default.
-  networking.networkmanager.insertNameservers = [ "8.8.8.8" "8.8.4.4" ];
   # Set your time zone.
   time.timeZone = "Australia/Hobart";
   services.flatpak.enable = true;
@@ -72,10 +77,10 @@
     libsecret
     ifuse
     pinentry-curses
-    cudatoolkit 
     wget
     libimobiledevice
     nvtop-nvidia
+    cifs-utils
   ];
   hardware.opengl = {
     enable = true;
@@ -97,7 +102,11 @@
   };
   xdg.portal = {
     enable = true;
-    extraPortals = [ pkgs.xdg-desktop-portal-hyprland ];
+    config = {
+      common = {
+        default = [ "gtk" ];
+      };
+    };
   };
 
   hardware.sane.enable = true;
