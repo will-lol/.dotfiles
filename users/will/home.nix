@@ -31,6 +31,9 @@
     # # "Hello, world!" when run.
     # pkgs.hello
     mixxx
+    grim
+    slurp
+    gimp
     
     hyprland
     ripgrep
@@ -64,7 +67,6 @@
     swaybg
     wob
     liberation_ttf
-    flameshot
     libre-franklin
     libre-baskerville
     inter
@@ -219,6 +221,9 @@
       binde =,XF86AudioRaiseVolume, exec, wpctl set-volume -l 1.5 @DEFAULT_AUDIO_SINK@ 5%+ && wpctl get-volume @DEFAULT_SINK@ | awk '{print int($2/1.5*100)}' > $WOBSOCK
       bind =,XF86AudioMute, exec, wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle && wpctl get-volume @DEFAULT_SINK@ | awk '{print int($2/1.5*100)}' > $WOBSOCK
 
+      bind =, Print, exec, grim -g "$(slurp)" - | wl-copy
+      bind = SUPER, Print, exec, NAME=$(uuidgen).png;grim -g "$(slurp)" /tmp/$NAME.png; gimp /tmp/$NAME.png
+
       bind = SUPER, H, movefocus, l
       bind = SUPER, L, movefocus, r
       bind = SUPER, K, movefocus, u
@@ -284,7 +289,7 @@
        height = 30;
        modules-left = ["hyprland/workspaces"];
        modules-center = ["clock"];
-       modules-right = ["wirepumber" "cpu" "memory"];
+       modules-right = ["cpu" "memory"];
        clock = {
          format = "{:%H:%M}";
 	 tooltip = true;

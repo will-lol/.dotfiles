@@ -7,6 +7,7 @@
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
     nix-colors.url = "github:misterio77/nix-colors";
     nur.url = "github:nix-community/NUR";
+    nvim-config.url = "./users/will/nvim";
   };
 
   outputs = { nixpkgs, home-manager, nix-colors, nur, ... }:

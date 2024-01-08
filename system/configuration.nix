@@ -27,11 +27,6 @@
     '';
   };
 
-  fileSystems."/mnt/shared" = {
-    device = "//192.168.1.26/public";
-    fsType = "cifs";
-  };
-
   networking.hostName = "nixos"; # Define your hostname.
   # Pick only one of the below networking options.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
@@ -135,6 +130,8 @@
     isNormalUser = true;
     extraGroups = [ "wheel" "docker" "scanner" "lp" "libvirtd" ]; # Enable ‘sudo’ for the user.
   };
+
+  programs.hyprland.enable = true;
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget
