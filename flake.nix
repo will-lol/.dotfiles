@@ -7,10 +7,11 @@
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
     nix-colors.url = "github:misterio77/nix-colors";
     nur.url = "github:nix-community/NUR";
-    nvim-config.url = "./users/will/nvim";
+    nixvim.url = "github:nix-community/nixvim";
+    nixvim.inputs.nixpkgs.follows = "nixpkgs";
   };
 
-  outputs = { nixpkgs, home-manager, nix-colors, nur, ... }:
+  outputs = { nixpkgs, home-manager, nix-colors, nur, nixvim, ... }:
   let 
     system = "x86_64-linux";
     pkgs = import nixpkgs {
@@ -24,6 +25,7 @@
       will = home-manager.lib.homeManagerConfiguration {
 	inherit pkgs;
 	modules = [
+	  nixvim.homeManagerModules.nixvim
           ./users/will/home.nix
 	  {
 	    home = {
