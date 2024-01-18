@@ -10,9 +10,11 @@
     nixvim.url = "github:nix-community/nixvim";
     nixvim.inputs.nixpkgs.follows = "nixpkgs";
     xremap-flake.url = "github:xremap/nix-flake";
+    sops-nix.url = "github:Mic92/sops-nix";
+    sops-nix.inputs.nixpkgs.follows = "nixpkgs";
   };
 
-  outputs = { nixpkgs, home-manager, nix-colors, nur, nixvim, xremap-flake, ... }:
+  outputs = { nixpkgs, home-manager, nix-colors, nur, nixvim, xremap-flake, sops-nix, ... }:
   let 
     system = "x86_64-linux";
     pkgs = import nixpkgs {
@@ -44,6 +46,7 @@
       nixos = lib.nixosSystem {
         inherit system;
 	modules = [
+	  sops-nix.nixosModules.sops
           ./system/configuration.nix
 	];
       };

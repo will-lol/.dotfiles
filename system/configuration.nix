@@ -126,13 +126,19 @@
     isNormalUser = true;
     extraGroups = [ "wheel" "docker" "scanner" "lp" "libvirtd" "uinput" "input" ]; 
   };
-  fileSystems."/mnt/share" = {
-    device = "//192.168.1.26/will";
-    fsType = "cifs";
-    options = let 
-      automount_opts = "x-systemd.automount,noauto,x-systemd.idle-timeout=60,x-systemd.device-timeout=5s,x-systemd.mount-timeout=5s";
-    in ["${automount_opts}",credentials=]
-  };
+
+  sops.defaultSopsFile = ../.sops.yaml;
+  sops.defaultSopsFormat = "yaml";
+  sops.age.keyFile = "/home/will/.config/sops/age/keys.txt";
+  sops.secrets.samba = {};
+
+  # fileSystems."/mnt/share" = {
+  #   device = "//192.168.1.26/will";
+  #   fsType = "cifs";
+  #   options = let 
+  #     automount_opts = "x-systemd.automount,noauto,x-systemd.idle-timeout=60,x-systemd.device-timeout=5s,x-systemd.mount-timeout=5s";
+  #   in ["${automount_opts}",user=will,password=""]
+  # };
   security.sudo.extraRules = [
     {
       users = [ "will" ];

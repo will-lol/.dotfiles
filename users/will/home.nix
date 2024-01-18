@@ -31,6 +31,7 @@
     # # "Hello, world!" when run.
     # pkgs.hello
     mixxx
+    sops
     grim
     slurp
     gimp
