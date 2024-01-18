@@ -9,9 +9,10 @@
     nur.url = "github:nix-community/NUR";
     nixvim.url = "github:nix-community/nixvim";
     nixvim.inputs.nixpkgs.follows = "nixpkgs";
+    xremap-flake.url = "github:xremap/nix-flake";
   };
 
-  outputs = { nixpkgs, home-manager, nix-colors, nur, nixvim, ... }:
+  outputs = { nixpkgs, home-manager, nix-colors, nur, nixvim, xremap-flake, ... }:
   let 
     system = "x86_64-linux";
     pkgs = import nixpkgs {
@@ -35,7 +36,7 @@
 	  }
 	  nur.nixosModules.nur
 	];
-	extraSpecialArgs = { inherit nix-colors; inherit localpkgs; };
+	extraSpecialArgs = { inherit nix-colors; inherit localpkgs; inherit xremap-flake; };
       };
     };
 

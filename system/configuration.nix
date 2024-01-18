@@ -83,11 +83,6 @@
     driSupport32Bit = true;
     extraPackages = with pkgs; [ vaapiVdpau libvdpau-va-gl nvidia-vaapi-driver ];
   };
-  nixpkgs.config.allowUnfreePredicate = pkg: 
-    builtins.elem (lib.getName pkg) [
-      "nvidia-x11"
-      "nvidia-settings"
-    ];
   services.xserver.videoDrivers = ["nvidia"];
   hardware.nvidia = {
     modesetting.enable = true;
@@ -126,10 +121,29 @@
   # Enable touchpad support (enabled default in most desktopManager).
   # services.xserver.libinput.enable = true;
   # Define a user account. Don't forget to set a password with ‘passwd’.
+  hardware.uinput.enable = true;
   users.users.will = {
     isNormalUser = true;
-    extraGroups = [ "wheel" "docker" "scanner" "lp" "libvirtd" ]; # Enable ‘sudo’ for the user.
+    extraGroups = [ "wheel" "docker" "scanner" "lp" "libvirtd" "uinput" "input" ]; 
   };
+  fileSystems."/mnt/share" = {
+    device = "//192.168.1.26/will";
+    fsType = "cifs";
+    options = let 
+      automount_opts = "x-systemd.automount,noauto,x-systemd.idle-timeout=60,x-systemd.device-timeout=5s,x-systemd.mount-timeout=5s";
+    in ["${automount_opts}",credentials=]
+  };
+  security.sudo.extraRules = [
+    {
+      users = [ "will" ];
+      commands = [
+        {
+          command = "${pkgs.ydotool}/bin/";
+          options = [ "NOPASSWD" ];
+        }
+      ];
+    }
+  ];
 
   programs.hyprland.enable = true;
 

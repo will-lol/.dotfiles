@@ -1,5 +1,5 @@
-{ config, pkgs, lib, nix-colors, localpkgs, ... }: {
-  imports = [ nix-colors.homeManagerModules.default ./nvim.nix ];
+{ config, pkgs, lib, nix-colors, xremap-flake, localpkgs, ... }: {
+  imports = [ nix-colors.homeManagerModules.default xremap-flake.homeManagerModules.default ./nvim.nix ];
   # Home Manager needs a bit of information about you and the paths it should
   # manage.
   home.username = "will";
@@ -34,13 +34,14 @@
     grim
     slurp
     gimp
+    ydotool
+    steam
     
     hyprland
     ripgrep
     trashy
     aria2
-    nodejs
-    nerdfonts
+    (nerdfonts.override { fonts = ["FiraCode"]; })
     entr
     htop-vim
     tree-sitter
@@ -183,7 +184,28 @@
       };	  
     };
   };
-  
+  systemd.user.services.xremap.Service.Environment = lib.mkForce [
+    "PATH=/run/current-system/sw/bin:/home/will/.nix-profile/bin"
+    "YDOTOOL_SOCKET=/home/will/.ydotool_socket"
+  ];
+  services.xremap = {
+    withWlroots = true;
+    config = {
+      keymap = [
+	{
+	  name = "mixxx";
+	  remap = {
+	    "d" = {
+	      launch = [ "bash" "-c" "ydotool mousemove -a -x 20 -y 195 && ydotool click C0 && ydotool mousemove -a -x 412 -y 65 && ydotool click C1 && ydotool mousemove -a -x 412 -y 85 && ydotool click C1 && ydotool mousemove -a -x 25 -y 130 && ydotool click C1 && ydotool mousemove -a -x 25 -y 145 && ydotool click C0" ];
+	    };
+	  };
+	  application = {
+	    "only" = "org.mixxx.";
+	  };
+	}
+      ];
+    };
+  };
   
   wayland.windowManager.hyprland = {
     enable = true;
@@ -201,6 +223,7 @@
       monitor = DP-1,1920x1080@75,0x0,1
       
       env = WLR_NO_HARDWARE_CURSORS,1
+      exec-once = hyprctl setcursor macOS-Monterey 24
       
       exec-once = waybar
 
@@ -214,6 +237,9 @@
       bind =, XF86AudioPlay, exec, playerctl play-pause
       bind =, XF86AudioPrev, exec, playerctl previous
       bind =, XF86AudioNext, exec, playerctl next
+
+      exec-once = sudo -b ${pkgs.ydotool}/bin/ydotoold --socket-path="$HOME/.ydotool_socket" --socket-own="$(id -u):$(id -g)"
+      env = YDOTOOL_SOCKET,$HOME/.ydotool_socket
 
       env = WOBSOCK,$XDG_RUNTIME_DIR/wob.sock
       exec-once = rm -f $WOBSOCK && mkfifo $WOBSOCK && tail -f $WOBSOCK | wob
