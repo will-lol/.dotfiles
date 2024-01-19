@@ -31,6 +31,7 @@
     # # "Hello, world!" when run.
     # pkgs.hello
     mixxx
+    git-credential-oauth
     sops
     grim
     slurp
@@ -166,7 +167,7 @@
   programs.git = {
     enable = true;
     extraConfig = {
-      credential.helper = "${pkgs.git.override {withLibsecret = true;}}/bin/git-credential-libsecret";
+      credential.helper = "${pkgs.git-credential-oauth}/bin/git-credential-oauth";
     };
   };
 
