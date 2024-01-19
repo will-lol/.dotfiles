@@ -40,16 +40,15 @@
   # gnupg
   programs.gnupg.agent = {
     enable = true;
-    pinentryFlavor = "curses";
+    pinentryFlavor = "curses"; # Simple pinentry package
     enableSSHSupport = true;
   };
+  environment.systempackages = with pkgs; [ pinentry-curses ];
 
   environment.systemPackages = with pkgs; [
     libva-utils 
     git
-    libsecret
     ifuse
-    pinentry-curses
     wget
     libimobiledevice
     nvtop-nvidia
