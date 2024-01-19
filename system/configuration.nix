@@ -38,7 +38,6 @@
   fonts.fontDir.enable = true; # Enabled for greater compatability
 
   # gnupg
-  services.pcscd.enable = true;
   programs.gnupg.agent = {
     enable = true;
     pinentryFlavor = "curses";
