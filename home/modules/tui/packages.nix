@@ -1,8 +1,8 @@
 { pkgs, ... }: {
   home.packages = with pkgs; [
+    parallel
     sops
     ripgrep
-    neo-cowsay
     trashy
     aria2
     entr
