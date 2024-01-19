@@ -1,25 +1,25 @@
-# Edit this configuration file to define what should be installed on
-# your system.  Help is available in the configuration.nix(5) man page
-# and in the NixOS manual (accessible by running `nixos-help`).
-
 { config, lib, pkgs, ... }:
 
 {
   imports =
-    [ # Include the results of the hardware scan.
+    [ 
       ./hardware-configuration.nix
     ];
-  nixpkgs.config.allowUnfree = true;
-  # Use the systemd-boot EFI boot loader.
-  boot.loader.systemd-boot.enable = true;
+  nixpkgs.config.allowUnfree = true; # Allow installation of unfree packages from nixpkgs
+  boot.loader.systemd-boot.enable = true; 
   boot.loader.efi.canTouchEfiVariables = true;
-  boot.loader.grub.configurationLimit = 10;
+  boot.loader.grub.configurationLimit = 10; # Limits the number of nixos generations listed in grub
   security.polkit.enable = true;
 
+  # Random features
   virtualisation.docker.enable = true;
+  services.flatpak.enable = true;
+
+  # virt-manager
   virtualisation.libvirtd.enable = true;
   programs.virt-manager.enable = true;
 
+  # Enabling flakes
   nix = {
     package = pkgs.nixFlakes;
     extraOptions = ''
@@ -27,31 +27,15 @@
     '';
   };
 
-  networking.hostName = "nixos"; # Define your hostname.
-  # Pick only one of the below networking options.
-  # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
-  networking.networkmanager.enable = true;  # Easiest to use and most distros use this by default.
-  # Set your time zone.
+  # Networking stuff
+  networking.hostName = "nixos"; 
+  networking.networkmanager.enable = true; 
   time.timeZone = "Australia/Hobart";
-  services.flatpak.enable = true;
-  fonts.fontDir.enable = true;
-  # Configure network proxy if necessary
-  # networking.proxy.default = "http://user:password@proxy:port/";
-  # networking.proxy.noProxy = "127.0.0.1,localhost,internal.domain";
 
-  # Select internationalisation properties.
-  # i18n.defaultLocale = "en_US.UTF-8";
-  # console = {
-  #   font = "Lat2-Terminus16";
-  #   keyMap = "us";
-  #   useXkbConfig = true; # use xkbOptions in tty.
-  # };
-
-  # Enable the X11 windowing system.
-  # services.xserver.enable = true;
-
-  # bluetooth
+  # Bluetooth
   services.blueman.enable = true;
+
+  fonts.fontDir.enable = true; # Enabled for greater compatability
 
   # gnupg
   services.pcscd.enable = true;
@@ -60,11 +44,6 @@
     pinentryFlavor = "curses";
     enableSSHSupport = true;
   };
-
-  # gnome-keyring
-  services.gnome.gnome-keyring.enable = true;
-  programs.dconf.enable = true;
-  services.dbus.packages = with pkgs; [ gnome.seahorse ];
 
   environment.systemPackages = with pkgs; [
     libva-utils 
@@ -127,18 +106,29 @@
     extraGroups = [ "wheel" "docker" "scanner" "lp" "libvirtd" "uinput" "input" ]; 
   };
 
-  sops.defaultSopsFile = ../.sops.yaml;
+  sops.defaultSopsFile = ../secrets/secrets.yaml;
   sops.defaultSopsFormat = "yaml";
   sops.age.keyFile = "/home/will/.config/sops/age/keys.txt";
   sops.secrets.samba = {};
 
-  # fileSystems."/mnt/share" = {
-  #   device = "//192.168.1.26/will";
-  #   fsType = "cifs";
-  #   options = let 
-  #     automount_opts = "x-systemd.automount,noauto,x-systemd.idle-timeout=60,x-systemd.device-timeout=5s,x-systemd.mount-timeout=5s";
-  #   in ["${automount_opts}",user=will,password=""]
-  # };
+  systemd.services."automountcredentials" = {
+    partOf = [ "mnt-share.mount" ];
+    wantedBy = [ "mnt-share.mount" ];
+    before = [ "mnt-share.mount" ];
+    script = ''
+      echo "username=will
+      password=$(cat ${config.sops.secrets."samba".path})" > /etc/nixos/smb-secrets
+    '';
+  };
+
+  fileSystems."/mnt/share" = {
+    device = "//192.168.1.26/will";
+    fsType = "cifs";
+    options = let 
+      automount_opts = "x-systemd.automount,noauto,x-systemd.idle-timeout=60,x-systemd.device-timeout=5s,x-systemd.mount-timeout=5s";
+    in ["${automount_opts},credentials=/etc/nixos/smb-secrets"];
+  };
+
   security.sudo.extraRules = [
     {
       users = [ "will" ];
@@ -153,38 +143,6 @@
 
   programs.hyprland.enable = true;
 
-  # List packages installed in system profile. To search, run:
-  # $ nix search wget
-  # Some programs need SUID wrappers, can be configured further or are
-  # started in user sessions.
-  # programs.mtr.enable = true;
-  # programs.gnupg.agent = {
-  #   enable = true;
-  #   enableSSHSupport = true;
-  # };
-
-  # List services that you want to enable:
-
-  # Enable the OpenSSH daemon.
-  # services.openssh.enable = true;
-
-  # Open ports in the firewall.
-  # networking.firewall.allowedTCPPorts = [ ... ];
-  # networking.firewall.allowedUDPPorts = [ ... ];
-  # Or disable the firewall altogether.
-  # networking.firewall.enable = false;
-
-  # Copy the NixOS configuration file and link it from the resulting system
-  # (/run/current-system/configuration.nix). This is useful in case you
-  # accidentally delete configuration.nix.
-  # system.copySystemConfiguration = true;
-
-  # This value determines the NixOS release from which the default
-  # settings for stateful data, like file locations and database versions
-  # on your system were taken. It's perfectly fine and recommended to leave
-  # this value at the release version of the first install of this system.
-  # Before changing this value read the documentation for this option
-  # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
-  system.stateVersion = "23.05"; # Did you read the comment?
+  system.stateVersion = "23.05"; 
 }
 
