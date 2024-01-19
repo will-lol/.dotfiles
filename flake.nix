@@ -22,33 +22,32 @@
       config = { allowUnfree = true; };
     };
     lib = nixpkgs.lib;
+    homeManagerModules = [
+      nixvim.homeManagerModules.nixvim
+      nur.nixosModules.nur
+      nix-colors.homeManagerModules.default
+      xremap-flake.homeManagerModules.default
+    ];
+    nixosModules = [ sops-nix.nixosModules.sops ];
     localpkgs = import ./localPackages pkgs; 
   in {
-    homeManagerConfigurations = {
-      will = home-manager.lib.homeManagerConfiguration {
-	inherit pkgs;
-	modules = [
-	  nixvim.homeManagerModules.nixvim
-          ./users/will/home.nix
-	  {
-	    home = {
-              username = "will";
-	      homeDirectory = "/home/will";
-	    };
-	  }
-	  nur.nixosModules.nur
-	];
-	extraSpecialArgs = { inherit nix-colors; inherit localpkgs; inherit xremap-flake; };
-      };
-    };
-
     nixosConfigurations = {
       nixos = lib.nixosSystem {
         inherit system;
 	modules = [
-	  sops-nix.nixosModules.sops
-          ./system/configuration.nix
-	];
+          ./nixos/desktop
+	  home-manager.nixosModules.home-manager
+	  {
+	    home-manager = {
+	      useGlobalPkgs = true;
+	      useUserPackages = true;
+	      users.will.imports = [
+		./home/hosts/desktop	
+	      ] ++ homeManagerModules;
+	      extraSpecialArgs = { inherit nix-colors; inherit localpkgs; inherit xremap-flake; };
+	    };
+	  }
+	] ++ nixosModules;
       };
     };
   };

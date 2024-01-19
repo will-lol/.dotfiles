@@ -1,4 +1,13 @@
 { pkgs, config, ... }: {
+  home.packages = with pkgs; [
+    tree-sitter
+    nodePackages.vscode-langservers-extracted
+  ];
+
+  home.sessionVariables = {
+    EDITOR = "nvim";
+  };
+
   programs.nixvim = {
     enable = true;
     viAlias = true;

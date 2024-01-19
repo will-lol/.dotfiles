@@ -1,4 +1,4 @@
-{ pkgs, config, ... }: {
+{ config, ... }: {
   systemd.services."automountcredentials" = {
     partOf = [ "mnt-share.mount" ];
     wantedBy = [ "mnt-share.mount" ];
