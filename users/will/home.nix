@@ -167,7 +167,7 @@
   programs.git = {
     enable = true;
     extraConfig = {
-      credential.helper = "${pkgs.git-credential-oauth}/bin/git-credential-oauth";
+      credential.helper = [ "cache --timeout 7200" "${pkgs.git-credential-oauth}/bin/git-credential-oauth" ];
     };
   };
 
