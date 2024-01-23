@@ -31,8 +31,11 @@
     nixosModules = [ sops-nix.nixosModules.sops ];
     localpkgs = import ./localPackages pkgs; 
   in {
+    devShell.x86_64-linux = pkgs.mkShell {
+      packages = [ (import ./apply-script.nix { inherit pkgs; }) ];
+    };
     nixosConfigurations = {
-      nixos = lib.nixosSystem {
+      desktop = lib.nixosSystem {
         inherit system;
 	modules = [
           ./nixos/desktop

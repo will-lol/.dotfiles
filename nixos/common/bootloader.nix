@@ -1,7 +1,10 @@
 {
   boot.loader = {
-    systemd-boot.enable = true; 
+    systemd-boot = {
+      enable = true;
+      configurationLimit = 10;
+    };
+
     efi.canTouchEfiVariables = true;
-    grub.configurationLimit = 10; # Limits the number of nixos generations listed in grub
   };
 }

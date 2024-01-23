@@ -1,5 +1,6 @@
 {
   virtualisation.libvirtd.enable = true;
+  virtualisation.docker.enable = true;
   programs.virt-manager.enable = true;
-  users.users.will.extraGroups = [ "libvirtd" ];
+  users.users.will.extraGroups = [ "libvirtd" "docker" ];
 }
