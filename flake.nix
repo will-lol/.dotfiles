@@ -29,11 +29,11 @@
       xremap-flake.homeManagerModules.default
     ];
     nixosModules = [ sops-nix.nixosModules.sops ];
-    localpkgs = import ./localPackages pkgs; 
   in {
     devShell.x86_64-linux = pkgs.mkShell {
       packages = [ (import ./apply-script.nix { inherit pkgs; }) ];
     };
+
     nixosConfigurations = {
       desktop = lib.nixosSystem {
         inherit system;
@@ -47,7 +47,25 @@
 	      users.will.imports = [
 		./home/hosts/desktop	
 	      ] ++ homeManagerModules;
-	      extraSpecialArgs = { inherit nix-colors; inherit localpkgs; inherit xremap-flake; };
+	      extraSpecialArgs = { inherit nix-colors; inherit xremap-flake; };
+	    };
+	  }
+	] ++ nixosModules;
+      };
+
+      laptop = lib.nixosSystem {
+        inherit system;
+	modules = [
+          ./nixos/laptop
+	  home-manager.nixosModules.home-manager
+	  {
+	    home-manager = {
+	      useGlobalPkgs = true;
+	      useUserPackages = true;
+	      users.will.imports = [
+		./home/hosts/laptop	
+	      ] ++ homeManagerModules;
+	      extraSpecialArgs = { inherit nix-colors; inherit xremap-flake; };
 	    };
 	  }
 	] ++ nixosModules;

@@ -3,6 +3,12 @@
     tofi
   ];
 
+  wayland.windowManager.hyprland.settings = {
+    bindr = [
+      "SUPER, D, exec, tofi-run | xargs hyprctl dispatch exec --"
+    ];
+  };
+
   home.file = {
     ".config/tofi/config".text = ''
        font = "${pkgs.nerdfonts}/share/fonts/truetype/NerdFonts/FiraCodeNerdFont-Regular.ttf" 

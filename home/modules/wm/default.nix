@@ -8,5 +8,9 @@
     ./waybar.nix
     ./wob.nix
     ./xremap.nix
+    ./screenshot.nix
+    ./volume.nix
+    ./swaybg.nix
+    ./playerctl.nix
   ];
 }

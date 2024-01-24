@@ -6,6 +6,7 @@
 	"browser.toolbars.bookmarks.visibility" = "never";
 	"browser.newtabpage.enabled" = false; 
 	"browser.startup.homepage" = "about:blank";
+	"media.ffmpeg.vaapi.enabled" = true;
       };
       extensions = with config.nur.repos.rycee.firefox-addons; [multi-account-containers firefox-translations vimium];
       search.engines = {

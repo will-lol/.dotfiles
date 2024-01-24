@@ -3,8 +3,9 @@
     ../../modules/tui
     ../../modules/wm
     ../../modules/gui
-    ./xremap.nix
     ./home.nix
+    ./battery.nix
     ./display.nix
+    ./brightness.nix
   ];
 }
