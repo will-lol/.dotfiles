@@ -206,6 +206,10 @@
 	  gopls.enable = true;
 	  lua-ls.enable = true;
 	  nixd.enable = true;
+	  tsserver = {
+	    enable = true;
+	    installLanguageServer = false;
+	  };
 	  rust-analyzer = {
 	    enable = true;
 	    installCargo = false;
