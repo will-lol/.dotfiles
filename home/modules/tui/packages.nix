@@ -5,7 +5,6 @@
     ripgrep
     trashy
     aria2
-    entr
     htop-vim
     yt-dlp
     gcc

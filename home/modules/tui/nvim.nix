@@ -198,6 +198,7 @@
 	  rust
 	];
       };
+      treesitter-textobjects.enable = true;
       lsp = {
         enable = true;
 	servers = {
@@ -255,6 +256,7 @@
 	  "<leader>sw" = "grep_string";
 	  "<leader>sg" = "live_grep";
 	  "<leader>sd" = "diagnostics";
+	  "<leader>st" = "treesitter";
 	};
       };
     };

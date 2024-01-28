@@ -4,6 +4,7 @@
     ./networking.nix
     ./packages.nix
     ./graphics.nix
+    ./fingerprint.nix
     ../common
   ];
 
