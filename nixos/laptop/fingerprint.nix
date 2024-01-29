@@ -6,4 +6,9 @@
       driver = pkgs.libfprint-2-tod1-goodix;
     };
   };
+
+  security.pam.services = {
+    login.fprintAuth = true;
+    sudo.fprintAuth = true;
+  };
 }
