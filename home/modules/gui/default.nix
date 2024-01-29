@@ -4,5 +4,6 @@
     ./packages.nix
     ./alacritty.nix
     ./virtualisation.nix
+    ./minecraft.nix
   ];
 }

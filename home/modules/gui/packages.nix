@@ -9,7 +9,6 @@
     obs-studio
     audacity
     # zotero
-    prismlauncher
     mpv
     lunar-client
   ];
