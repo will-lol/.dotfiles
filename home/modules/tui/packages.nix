@@ -11,5 +11,6 @@
     kalker
     ffmpeg
     unzip
+    nethogs
   ];
 }
