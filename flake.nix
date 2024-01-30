@@ -75,18 +75,6 @@
 	  }
 	] ++ nixosModules;
       };
-
-      minecraft = lib.nixosSystem {
-	inherit system;
-	modules = [
-	  (nixpkgs + "/nixos/modules/virtualisation/amazon-image.nix")
-	  nix-minecraft.nixosModules.minecraft-servers
-	  {
-	    nixpkgs.overlays = [ nix-minecraft.overlay ];
-	  }
-	  ./nixos/minecraft
-	];
-      };
     };
   };
 }
