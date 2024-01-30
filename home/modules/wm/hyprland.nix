@@ -4,6 +4,7 @@
   wayland.windowManager.hyprland = {
     enable = true;
     settings = {
+      animations.enabled = false;
       misc.disable_hyprland_logo = true;
       bind = [
         "SUPER, Return, exec, alacritty"
