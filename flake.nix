@@ -12,9 +12,11 @@
     xremap-flake.url = "github:xremap/nix-flake";
     sops-nix.url = "github:Mic92/sops-nix";
     sops-nix.inputs.nixpkgs.follows = "nixpkgs";
+    nix-minecraft.url = "github:Infinidoge/nix-minecraft";
+    nix-minecraft.inputs.nixpkgs.follows = "nixpkgs";
   };
 
-  outputs = { nixpkgs, home-manager, nix-colors, nur, nixvim, xremap-flake, sops-nix, ... }:
+  outputs = { nixpkgs, home-manager, nix-colors, nur, nixvim, xremap-flake, sops-nix, nix-minecraft, ... }:
   let 
     system = "x86_64-linux";
     pkgs = import nixpkgs {
@@ -69,6 +71,18 @@
 	    };
 	  }
 	] ++ nixosModules;
+      };
+
+      minecraft = lib.nixosSystem {
+	inherit system;
+	modules = [
+	  (nixpkgs + "/nixos/modules/virtualisation/amazon-image.nix")
+	  nix-minecraft.nixosModules.minecraft-servers
+	  {
+	    nixpkgs.overlays = [ nix-minecraft.overlay ];
+	  }
+	  ./nixos/minecraft
+	];
       };
     };
   };
