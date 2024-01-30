@@ -12,6 +12,7 @@
     ./security.nix
     ./iossupport.nix
     ./virtualisation.nix
+    ./minecraft.nix
   ];
 
   i18n.defaultLocale = "en_US.UTF-8";
