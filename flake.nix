@@ -35,6 +35,9 @@
     devShell.x86_64-linux = pkgs.mkShell {
       packages = [ (import ./apply-script.nix { inherit pkgs; }) ];
     };
+    devShell.aarch64-linux = pkgs.mkShell {
+      packages = [ (import ./apply-script.nix { inherit pkgs; }) ];
+    };
 
     nixosConfigurations = {
       desktop = lib.nixosSystem {
