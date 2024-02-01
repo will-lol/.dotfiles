@@ -12,11 +12,9 @@
     xremap-flake.url = "github:xremap/nix-flake";
     sops-nix.url = "github:Mic92/sops-nix";
     sops-nix.inputs.nixpkgs.follows = "nixpkgs";
-    nix-minecraft.url = "github:Infinidoge/nix-minecraft";
-    nix-minecraft.inputs.nixpkgs.follows = "nixpkgs";
   };
 
-  outputs = { nixpkgs, home-manager, nix-colors, nur, nixvim, xremap-flake, sops-nix, nix-minecraft, ... }:
+  outputs = { nixpkgs, home-manager, nix-colors, nur, nixvim, xremap-flake, sops-nix, ... }:
   let 
     system = "x86_64-linux";
     pkgs = import nixpkgs {
