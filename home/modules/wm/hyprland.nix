@@ -7,7 +7,7 @@
       animations.enabled = false;
       misc.disable_hyprland_logo = true;
       bind = [
-        "SUPER, Return, exec, alacritty"
+        "SUPER, Return, exec, foot"
 
         "SUPER, H, movefocus, l"
         "SUPER, L, movefocus, r"

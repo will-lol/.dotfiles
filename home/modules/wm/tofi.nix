@@ -5,7 +5,7 @@
 
   wayland.windowManager.hyprland.settings = {
     bindr = [
-      "SUPER, D, exec, tofi-run | xargs hyprctl dispatch exec --"
+      "SUPER, D, exec, tofi-drun | xargs hyprctl dispatch exec --"
     ];
   };
 

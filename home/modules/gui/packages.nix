@@ -1,7 +1,6 @@
 { pkgs, ... }: {
   home.packages = with pkgs; [
     mixxx
-    discord-screenaudio
     gimp
     steam
     ydotool
