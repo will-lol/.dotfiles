@@ -2,7 +2,7 @@
   imports = [
     ./firefox.nix
     ./packages.nix
-    ./alacritty.nix
+    ./foot.nix
     ./virtualisation.nix
     ./minecraft.nix
   ];
