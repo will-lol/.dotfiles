@@ -4,5 +4,6 @@
     ./bash.nix
     ./nvim.nix
     ./packages.nix
+    ./direnv.nix
   ];
 }
