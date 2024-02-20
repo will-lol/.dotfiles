@@ -45,7 +45,6 @@
 	  home-manager.nixosModules.home-manager
 	  {
 	    home-manager = {
-	      useGlobalPkgs = true;
 	      useUserPackages = true;
 	      users.will.imports = [
 		./home/hosts/desktop	
@@ -63,7 +62,6 @@
 	  home-manager.nixosModules.home-manager
 	  {
 	    home-manager = {
-	      useGlobalPkgs = true;
 	      useUserPackages = true;
 	      users.will.imports = [
 		./home/hosts/laptop	
