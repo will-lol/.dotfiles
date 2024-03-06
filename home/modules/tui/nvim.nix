@@ -101,6 +101,13 @@
       which-key = {
 	enable = true;
       };
+      copilot-vim = {
+	enable = true;
+	filetypes = {
+	  "*" = true;
+	};
+	nodeCommand = "${pkgs.nodejs_21}/bin/node";
+      };
       nvim-cmp = {
 	enable = true;
 	autoEnableSources = true;
@@ -209,6 +216,14 @@
 	  tsserver = {
 	    enable = true;
 	    installLanguageServer = false;
+	  };
+	  denols = {
+	    enable = true;
+	    filetypes = [ "typescript" "javascript" ];
+	    cmd = ["deno" "lsp"];
+	  };
+	  jsonls = {
+	    enable = true;
 	  };
 	  rust-analyzer = {
 	    enable = true;
