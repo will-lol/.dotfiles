@@ -12,6 +12,7 @@
     enable = true;
     viAlias = true;
     vimAlias = true;
+
     autoCmd = [
       {
 	event = "FileType";
@@ -23,15 +24,18 @@
 	command = "setlocal spell";
       }
     ];
+
     globals = {
       mapleader = " ";
       maplocalleader = " ";
     };
+
     filetype = {
       extension = {
 	templ = "templ";
       };
     };
+
     keymaps = [
       {
 	mode = [ "v" ];
@@ -103,40 +107,44 @@
       };
       copilot-vim = {
 	enable = true;
-	filetypes = {
-	  "*" = true;
+	settings = {
+	  filetypes = {
+	    "*" = true;
+	  };
+	  nodeCommand = "${pkgs.nodejs_21}/bin/node";
 	};
-	nodeCommand = "${pkgs.nodejs_21}/bin/node";
       };
-      nvim-cmp = {
+      cmp = {
 	enable = true;
 	autoEnableSources = true;
-	snippet.expand = "luasnip";
-	
-	mapping = {
-	  "<C-n>" = "cmp.mapping.select_next_item()";
-	  "<C-p>" = "cmp.mapping.select_prev_item()";
-	  "<C-Space>" = "cmp.mapping.complete {}";
-	  "<CR>" = ''cmp.mapping.confirm {
-	    behavior = cmp.ConfirmBehavior.Replace,
-	    select = true,
-	  }'';
-	  "<Tab>" = "cmp.mapping(function(fallback) if cmp.visible() then cmp.select_next_item() else fallback() end end, { 'i', 's' })";
-	  "<S-Tab>" = "cmp.mapping(function(fallback) if cmp.visible() then cmp.select_prev_item() else fallback() end end, { 'i', 's' })";
-	};
-	
-	completion.autocomplete = [ "TextChanged" ];
 
-	sources = [ 
-	  { name = "luasnip"; }
-	  { name = "nvim_lsp"; }
-	  { name = "path"; }
-	  { name = "nvim_lsp_signature_help"; }
-	  { 
-	    name = "buffer"; 
-	    option.get_bufnrs.__raw = "vim.api.nvim_list_bufs"; # Words from other buffers are suggested 
-	  }
-	];
+	settings = {
+	  snippet.expand = "luasnip";
+
+	  mapping = {
+	    "<C-n>" = "cmp.mapping.select_next_item()";
+	    "<C-p>" = "cmp.mapping.select_prev_item()";
+	    "<C-Space>" = "cmp.mapping.complete {}";
+	    "<CR>" = ''cmp.mapping.confirm {
+	      behavior = cmp.ConfirmBehavior.Replace,
+	      select = true,
+	    }'';
+	    "<Tab>" = "cmp.mapping(function(fallback) if cmp.visible() then cmp.select_next_item() else fallback() end end, { 'i', 's' })";
+	    "<S-Tab>" = "cmp.mapping(function(fallback) if cmp.visible() then cmp.select_prev_item() else fallback() end end, { 'i', 's' })";
+	  };
+	  sources = [ 
+	    { name = "luasnip"; }
+	    { name = "nvim_lsp"; }
+	    { name = "path"; }
+	    { name = "nvim_lsp_signature_help"; }
+	    { 
+	      name = "buffer"; 
+	      option.get_bufnrs.__raw = "vim.api.nvim_list_bufs"; # Words from other buffers are suggested 
+	    }
+	  ];
+
+	  completion.autocomplete = [ "TextChanged" ];
+	};
       };
       cmp-nvim-lsp.enable = true;
       cmp-nvim-lsp-signature-help.enable = true;
@@ -212,10 +220,11 @@
 	  templ.enable = true;
 	  gopls.enable = true;
 	  lua-ls.enable = true;
-	  nixd.enable = true;
+	  # uncomment when nixd doesnt depend on nix 1.16. https://github.com/nix-community/nixd/issues/357
+	  # nixd.enable = true;
 	  tsserver = {
 	    enable = true;
-	    installLanguageServer = false;
+	    package = null;
 	  };
 	  denols = {
 	    enable = true;

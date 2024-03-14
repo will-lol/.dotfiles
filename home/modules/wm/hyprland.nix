@@ -28,8 +28,8 @@
       bindm = [ "SUPER, mouse:272, movewindow" ];
 
       general = {
-        "col.inactive_border" = "rgb(${config.colorScheme.colors.base04})";
-        "col.active_border" = "rgb(${config.colorScheme.colors.base05})";
+        "col.inactive_border" = "rgb(${config.colorScheme.palette.base04})";
+        "col.active_border" = "rgb(${config.colorScheme.palette.base05})";
         "gaps_out" = "10";
       };
 

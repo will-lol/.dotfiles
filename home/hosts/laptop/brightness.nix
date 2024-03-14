@@ -6,9 +6,9 @@
       border_size = 2
       bar_padding = 2
       border_offset = 2
-      background_color = ${config.colorScheme.colors.base01}
-      border_color = ${config.colorScheme.colors.base06}
-      bar_color = ${config.colorScheme.colors.base0B}
+      background_color = ${config.colorScheme.palette.base01}
+      border_color = ${config.colorScheme.palette.base06}
+      bar_color = ${config.colorScheme.palette.base0B}
       height = 30
     '';
   };
