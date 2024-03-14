@@ -22,8 +22,8 @@
     style = ''
     * {
      font-family: monospace;
-     color: #${config.colorScheme.colors.base05};
-     background-color: #${config.colorScheme.colors.base01}
+     color: #${config.colorScheme.palette.base05};
+     background-color: #${config.colorScheme.palette.base01}
     }
 
     #workspaces button {

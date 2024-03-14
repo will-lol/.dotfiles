@@ -10,6 +10,7 @@
     nixvim.url = "github:nix-community/nixvim";
     nixvim.inputs.nixpkgs.follows = "nixpkgs";
     xremap-flake.url = "github:xremap/nix-flake";
+    xremap-flake.inputs.nixpkgs.follows = "nixpkgs";
     sops-nix.url = "github:Mic92/sops-nix";
     sops-nix.inputs.nixpkgs.follows = "nixpkgs";
   };
@@ -32,6 +33,9 @@
   in {
     devShell.x86_64-linux = pkgs.mkShell {
       packages = [ (import ./apply-script.nix { inherit pkgs; }) ];
+      shellHook = ''
+	export NIXPKGS_ALLOW_INSECURE=1
+      '';
     };
     devShell.aarch64-linux = pkgs.mkShell {
       packages = [ (import ./apply-script.nix { inherit pkgs; }) ];

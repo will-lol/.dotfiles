@@ -1,10 +1,9 @@
 { pkgs, ... }: {
   programs.gnupg.agent = {
     enable = true;
-    pinentryFlavor = "curses"; # Simple pin entry package
+    pinentryPackage = pkgs.pinentry-curses;
     enableSSHSupport = true;
   };
-  environment.systemPackages = with pkgs; [ pinentry-curses ];
 
   security = {
     polkit.enable = true; # Required by Wayland

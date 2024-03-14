@@ -21,17 +21,17 @@
        padding-top = 35%
        result-spacing = 25
        num-results = 5
-       background-color = #${config.colorScheme.colors.base00}99
-       default-result-background = #${config.colorScheme.colors.base00}
-       default-result-color = #${config.colorScheme.colors.base03}
+       background-color = #${config.colorScheme.palette.base00}99
+       default-result-background = #${config.colorScheme.palette.base00}
+       default-result-color = #${config.colorScheme.palette.base03}
        default-result-background-padding = 10
-       selection-background = #${config.colorScheme.colors.base02}
+       selection-background = #${config.colorScheme.palette.base02}
        selection-background-padding = 10
-       selection-color = #${config.colorScheme.colors.base0E}
-       selection-match-color = #${config.colorScheme.colors.base0C}
-       input-color = #${config.colorScheme.colors.base0C}
+       selection-color = #${config.colorScheme.palette.base0E}
+       selection-match-color = #${config.colorScheme.palette.base0C}
+       input-color = #${config.colorScheme.palette.base0C}
        prompt-text = "run " 
-       prompt-color = #${config.colorScheme.colors.base05}
+       prompt-color = #${config.colorScheme.palette.base05}
        result-spacing = 30
     ''; 
   };
