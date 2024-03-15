@@ -119,7 +119,7 @@
 	autoEnableSources = true;
 
 	settings = {
-	  snippet.expand = "luasnip";
+	  snippet.expand = "function(args) require('luasnip').lsp_expand(args.body) end";
 
 	  mapping = {
 	    "<C-n>" = "cmp.mapping.select_next_item()";
