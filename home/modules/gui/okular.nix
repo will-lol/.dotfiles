@@ -1,10 +1,10 @@
 { pkgs, ... }: {
-  home.packages = with pkgs; [ okular ]
+  home.packages = with pkgs; [ okular ];
 
-  xdg.desktopEntries = {
-    discord = {
-      name = "Okular";
-      exec = "okular";
-    };
-  };
+  # xdg.desktopEntries = {
+  #   okular = {
+  #     name = "Okular";
+  #     exec = "okular";
+  #   };
+  # };
 }

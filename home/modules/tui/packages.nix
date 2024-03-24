@@ -1,6 +1,7 @@
 { pkgs, ... }: {
   home.packages = with pkgs; [
     dig
+    awscli2
     parallel
     sops
     ripgrep
