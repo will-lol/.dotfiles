@@ -40,7 +40,11 @@
     devShell.aarch64-linux = pkgs.mkShell {
       packages = [ (import ./apply-script.nix { inherit pkgs; }) ];
     };
-
+    # darwinConfigurations = {
+    #   hostname = darwin.lib.darwinSystem {
+    #
+    #   };
+    # };
     nixosConfigurations = {
       desktop = lib.nixosSystem {
         inherit system;
