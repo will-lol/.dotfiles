@@ -13,9 +13,11 @@
     xremap-flake.inputs.nixpkgs.follows = "nixpkgs";
     sops-nix.url = "github:Mic92/sops-nix";
     sops-nix.inputs.nixpkgs.follows = "nixpkgs";
+    darwin.url = "github:LnL7/nix-darwin/master";
+    darwin.inputs.nixpkgs.follows = "nixpkgs";
   };
 
-  outputs = { nixpkgs, home-manager, nix-colors, nur, nixvim, xremap-flake, sops-nix, ... }:
+  outputs = { nixpkgs, darwin, home-manager, nix-colors, nur, nixvim, xremap-flake, sops-nix, ... }:
   let 
     system = "x86_64-linux";
     pkgs = import nixpkgs {
@@ -33,18 +35,30 @@
   in {
     devShell.x86_64-linux = pkgs.mkShell {
       packages = [ (import ./apply-script.nix { inherit pkgs; }) ];
-      shellHook = ''
-	export NIXPKGS_ALLOW_INSECURE=1
-      '';
     };
     devShell.aarch64-linux = pkgs.mkShell {
       packages = [ (import ./apply-script.nix { inherit pkgs; }) ];
     };
-    # darwinConfigurations = {
-    #   hostname = darwin.lib.darwinSystem {
-    #
-    #   };
-    # };
+    devshell.x86_64-darwin = pkgs.mkShell {
+      packages = [ (import ./apply-script.nix { inherit pkgs; }) ];
+    };
+    darwinConfigurations = {
+      hostname = darwin.lib.darwinSystem {
+	system = "x86_64-darwin";
+	modules = [
+	  home-manager.darwinModules.home-manager
+	  {
+	    home-manager = {
+	      useUserPackages = true;
+	      users.will.imports = [
+		./home/hosts/darwin
+	      ] ++ homeManagerModules;
+	      extraSpecialArgs = { inherit nix-colors; inherit xremap-flake; };
+	    };
+	  }
+	];
+      };
+    };
     nixosConfigurations = {
       desktop = lib.nixosSystem {
         inherit system;
