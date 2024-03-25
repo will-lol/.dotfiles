@@ -5,7 +5,6 @@
     parallel
     sops
     ripgrep
-    trashy
     aria2
     htop-vim
     yt-dlp
@@ -13,6 +12,5 @@
     kalker
     ffmpeg
     unzip
-    nethogs
   ];
 }

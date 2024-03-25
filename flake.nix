@@ -39,13 +39,11 @@
     devShell.aarch64-linux = pkgs.mkShell {
       packages = [ (import ./apply-script.nix { inherit pkgs; }) ];
     };
-    devshell.x86_64-darwin = pkgs.mkShell {
-      packages = [ (import ./apply-script.nix { inherit pkgs; }) ];
-    };
     darwinConfigurations = {
-      hostname = darwin.lib.darwinSystem {
+      Wills-MacBook-Pro = darwin.lib.darwinSystem {
 	system = "x86_64-darwin";
 	modules = [
+          ./darwin
 	  home-manager.darwinModules.home-manager
 	  {
 	    home-manager = {
