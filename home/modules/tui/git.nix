@@ -1,6 +1,6 @@
 { pkgs, ... }: {
   home.packages = with pkgs; [
-    git-credential-oauth
+    pass
   ];
 
   programs.git = {
@@ -8,7 +8,8 @@
     userEmail = "will.bradshaw50@gmail.com";
     userName = "will";
     extraConfig = {
-      credential.helper = [ "cache --timeout 7200" "${pkgs.git-credential-oauth}/bin/git-credential-oauth" ];
+      credential.helper = "${pkgs.git-credential-manager}/bin/git-credential-manager";
+      credential.credentialStore = "gpg";
       init.defaultBranch = "main";
     };
   };
