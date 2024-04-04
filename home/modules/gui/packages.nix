@@ -2,7 +2,6 @@
   home.packages = with pkgs; [
     mixxx
     gimp
-    steam
     ydotool
     calibre
     obs-studio
@@ -12,4 +11,8 @@
     mpv
     lunar-client
   ];
+  
+  services.flatpak.enable = true;
+  services.flatpak.update.onActivation = true;
+  services.flatpak.uninstallUnmanagedPackages = true;
 }
