@@ -12,6 +12,7 @@
     ./security.nix
     ./iossupport.nix
     ./virtualisation.nix
+    ./flatpak.nix
     ./minecraft.nix
   ];
 

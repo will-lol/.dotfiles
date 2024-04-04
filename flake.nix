@@ -15,9 +15,10 @@
     sops-nix.inputs.nixpkgs.follows = "nixpkgs";
     darwin.url = "github:LnL7/nix-darwin/master";
     darwin.inputs.nixpkgs.follows = "nixpkgs";
+    nix-flatpak.url = "github:gmodena/nix-flatpak/?ref=v0.3.0";
   };
 
-  outputs = { nixpkgs, darwin, home-manager, nix-colors, nur, nixvim, xremap-flake, sops-nix, ... }:
+  outputs = { nixpkgs, darwin, home-manager, nix-colors, nur, nixvim, xremap-flake, sops-nix, nix-flatpak, ... }:
   let 
     system = "x86_64-linux";
     pkgs = import nixpkgs {
@@ -30,8 +31,9 @@
       nur.nixosModules.nur
       nix-colors.homeManagerModules.default
       xremap-flake.homeManagerModules.default
+      nix-flatpak.homeManagerModules.nix-flatpak
     ];
-    nixosModules = [ sops-nix.nixosModules.sops ];
+    nixosModules = [ sops-nix.nixosModules.sops nix-flatpak.nixosModules.nix-flatpak ];
   in {
     devShell.x86_64-linux = pkgs.mkShell {
       packages = [ (import ./apply-script.nix { inherit pkgs; }) ];
