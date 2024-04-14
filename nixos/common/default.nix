@@ -5,6 +5,7 @@
     ./sound.nix
     ./users.nix
     ./desktop.nix
+    ./tailscale.nix
     ./printer.nix
     ./secrets.nix
     ./hardware.nix
