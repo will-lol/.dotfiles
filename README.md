@@ -1,3 +1,7 @@
+# secrets
+- tailscale secret may be out of date
+- you need the age key to decrypt the secrets (important)
+
 # What is this?
 This repo contains all of my system configuration and some scripts to manage it. It likely won't run on your system unless it has an NVIDIA GPU and an identical file system layout. If you want to try, all system configuration is located in the system folder.
 ## Using this repository
