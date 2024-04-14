@@ -1,5 +1,5 @@
-{ pkgs, ... }: {
-  home.packages = with pkgs; [ grim slurp ];
+{pkgs, ...}: {
+  home.packages = with pkgs; [grim slurp];
   wayland.windowManager.hyprland.settings = {
     bind = [
       ", Print, exec, grim -g \"$(slurp)\" - | wl-copy -t image/png"

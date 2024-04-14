@@ -1,5 +1,10 @@
-{ pkgs, config, ... }: 
-let user = "will"; in {
+{
+  pkgs,
+  config,
+  ...
+}: let
+  user = "will";
+in {
   services.nix-daemon.enable = true;
 
   users.users.${user} = {
@@ -11,7 +16,7 @@ let user = "will"; in {
 
   nix = {
     package = pkgs.nixUnstable;
-    settings.trusted-users = [ "@admin" "${user}" ];
+    settings.trusted-users = ["@admin" "${user}"];
     extraOptions = ''
       experimental-features = nix-command flakes
     '';

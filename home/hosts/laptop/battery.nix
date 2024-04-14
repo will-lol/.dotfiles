@@ -1,13 +1,13 @@
-{ pkgs, ... }: {
+{pkgs, ...}: {
   programs.waybar = {
     settings = {
       mainBar = {
-        modules-right = [ "battery" ]; 
+        modules-right = ["battery"];
       };
     };
   };
 
-  home.packages = with pkgs; [ batsignal ];
+  home.packages = with pkgs; [batsignal];
   systemd.user.services.batsignal = {
     Unit = {
       Description = "Battery monitor daemon";
@@ -19,7 +19,7 @@
       RestartSec = 1;
     };
     Install = {
-      WantedBy = [ "default.target" ]; 
+      WantedBy = ["default.target"];
     };
   };
 }

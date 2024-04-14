@@ -1,4 +1,4 @@
-{ pkgs, ... }: {
+{pkgs, ...}: {
   home.packages = with pkgs; [
     mixxx
     gimp
@@ -11,7 +11,7 @@
     mpv
     lunar-client
   ];
-  
+
   services.flatpak.enable = true;
   services.flatpak.update.onActivation = true;
   services.flatpak.uninstallUnmanagedPackages = true;

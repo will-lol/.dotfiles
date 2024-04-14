@@ -1,3 +1,3 @@
-{ pkgs, ... }: {
-  home.packages = with pkgs; [ trashy ];
+{pkgs, ...}: {
+  home.packages = with pkgs; [trashy];
 }

@@ -1,5 +1,5 @@
 {
   networking.hostName = "desktop";
   networking.networkmanager.enable = true;
-  users.users.will.extraGroups = ["networkmanager"];
+  users.users.virt.extraGroups = ["networkmanager"];
 }
