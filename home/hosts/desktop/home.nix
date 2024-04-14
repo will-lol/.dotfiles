@@ -1,4 +1,8 @@
-{ pkgs, nix-colors, ... }: {
+{
+  pkgs,
+  nix-colors,
+  ...
+}: {
   # Home Manager needs a bit of information about you and the paths it should
   # manage.
   home.username = "will";
@@ -12,7 +16,6 @@
   # release notes.
   home.stateVersion = "23.05"; # Please read the comment before changing.
   nixpkgs.config.allowUnfree = true;
-
 
   colorScheme = nix-colors.colorSchemes.tokyo-night-storm;
 

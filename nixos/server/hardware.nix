@@ -12,23 +12,28 @@
     (modulesPath + "/installer/scan/not-detected.nix")
   ];
 
-  boot.initrd.availableKernelModules = ["xhci_pci" "ehci_pci" "ahci" "usb_storage" "sd_mod"];
+  boot.initrd.availableKernelModules = ["xhci_pci" "ehci_pci" "ahci" "sd_mod"];
   boot.initrd.kernelModules = [];
   boot.kernelModules = ["kvm-intel"];
   boot.extraModulePackages = [];
 
   fileSystems."/" = {
-    device = "/dev/disk/by-uuid/78385936-cf46-4ef4-a5ef-ace26705af1a";
+    device = "/dev/disk/by-uuid/7c639750-6b26-42a3-8dba-42e0cd573e6b";
     fsType = "ext4";
   };
 
   fileSystems."/boot" = {
-    device = "/dev/disk/by-uuid/A94A-757F";
+    device = "/dev/disk/by-uuid/BF42-343E";
     fsType = "vfat";
   };
 
+  fileSystems."/mnt/server" = {
+    device = "/dev/disk/by-uuid/c4181f70-230d-4d37-a67d-abe8b9dba752";
+    fsType = "ext4";
+  };
+
   swapDevices = [
-    {device = "/dev/disk/by-uuid/2f110d9f-162e-473d-9916-d798ce064ac8";}
+    {device = "/dev/disk/by-uuid/8679518c-3bb2-422d-828a-be9288e47855";}
   ];
 
   # Enables DHCP on each ethernet and wireless interface. In case of scripted networking
@@ -36,9 +41,11 @@
   # still possible to use this option, but it's recommended to use it in conjunction
   # with explicit per-interface declarations with `networking.interfaces.<interface>.useDHCP`.
   networking.useDHCP = lib.mkDefault true;
-  # networking.interfaces.enp0s25.useDHCP = lib.mkDefault true;
-  # networking.interfaces.wlp4s0.useDHCP = lib.mkDefault true;
-  # networking.interfaces.wwp0s20u4.useDHCP = lib.mkDefault true;
+  # networking.interfaces.br-b1b569931550.useDHCP = lib.mkDefault true;
+  # networking.interfaces.docker0.useDHCP = lib.mkDefault true;
+  # networking.interfaces.eno1.useDHCP = lib.mkDefault true;
+  # networking.interfaces.tailscale0.useDHCP = lib.mkDefault true;
+  # networking.interfaces.veth2ac390a.useDHCP = lib.mkDefault true;
 
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
   hardware.cpu.intel.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;

@@ -1,4 +1,4 @@
-{ pkgs, ... }: {
+{pkgs, ...}: {
   home.pointerCursor = {
     package = pkgs.apple-cursor;
     name = "macOS-Monterey";

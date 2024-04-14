@@ -1,5 +1,5 @@
 {
-  networking.hostName = "laptop"; 
+  networking.hostName = "laptop";
   networking.networkmanager.enable = true;
-  users.users.will.extraGroups = [ "networkmanager" ];
+  users.users.will.extraGroups = ["networkmanager"];
 }

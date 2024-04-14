@@ -1,4 +1,9 @@
-{ pkgs, config, nix-colors, ... }: {
+{
+  pkgs,
+  config,
+  nix-colors,
+  ...
+}: {
   imports = [
     ../../modules/tui
     ../../modules/tui/linux

@@ -1,4 +1,8 @@
-{ pkgs, config, ... }: {
+{
+  pkgs,
+  config,
+  ...
+}: {
   home.packages = with pkgs; [
     tree-sitter
     nodePackages.vscode-langservers-extracted
@@ -15,13 +19,13 @@
 
     autoCmd = [
       {
-	event = "FileType";
-	pattern = [
-	  "tex"
-	  "latex"
-	  "markdown"
-	];
-	command = "setlocal spell";
+        event = "FileType";
+        pattern = [
+          "tex"
+          "latex"
+          "markdown"
+        ];
+        command = "setlocal spell";
       }
     ];
 
@@ -32,44 +36,44 @@
 
     filetype = {
       extension = {
-	templ = "templ";
+        templ = "templ";
       };
     };
 
     keymaps = [
       {
-	mode = [ "v" ];
-	key = "J";
-	action = ":m '>+1<CR>gv=gv";
+        mode = ["v"];
+        key = "J";
+        action = ":m '>+1<CR>gv=gv";
       }
       {
-	mode = [ "v" ];
-	key = "K";
-	action = ":m '<-2<CR>gv=gv";
+        mode = ["v"];
+        key = "K";
+        action = ":m '<-2<CR>gv=gv";
       }
       {
-	mode = [ "n" "v" ];
-	key = "<Space>";
-	action = "<Nop>";
-	options.silent = true;
+        mode = ["n" "v"];
+        key = "<Space>";
+        action = "<Nop>";
+        options.silent = true;
       }
       {
-	mode = [ "n" ];
-	key = "k";
-	action = "v:count == 0 ? 'gk' : 'k'";
-	options = {
-	  expr = true;
-	  silent = true;
-	};
+        mode = ["n"];
+        key = "k";
+        action = "v:count == 0 ? 'gk' : 'k'";
+        options = {
+          expr = true;
+          silent = true;
+        };
       }
       {
-	mode = [ "n" ];
-	key = "j";
-	action = "v:count == 0 ? 'gj' : 'j'";
-	options = {
-	  expr = true;
-	  silent = true;
-	};
+        mode = ["n"];
+        key = "j";
+        action = "v:count == 0 ? 'gj' : 'j'";
+        options = {
+          expr = true;
+          silent = true;
+        };
       }
     ];
 
@@ -79,7 +83,7 @@
     };
 
     options = {
-      completeopt = [ "menu" "menuone" "noselect" ];
+      completeopt = ["menu" "menuone" "noselect"];
       cursorline = true;
       number = true;
       relativenumber = true;
@@ -103,165 +107,164 @@
 
     plugins = {
       which-key = {
-	enable = true;
+        enable = true;
       };
       copilot-vim = {
-	enable = true;
-	settings = {
-	  filetypes = {
-	    "*" = true;
-	  };
-	  nodeCommand = "${pkgs.nodejs_21}/bin/node";
-	};
+        enable = true;
+        settings = {
+          filetypes = {
+            "*" = true;
+          };
+          nodeCommand = "${pkgs.nodejs_21}/bin/node";
+        };
       };
       cmp = {
-	enable = true;
-	autoEnableSources = true;
+        enable = true;
+        autoEnableSources = true;
 
-	settings = {
-	  snippet.expand = "function(args) require('luasnip').lsp_expand(args.body) end";
+        settings = {
+          snippet.expand = "function(args) require('luasnip').lsp_expand(args.body) end";
 
-	  mapping = {
-	    "<C-n>" = "cmp.mapping.select_next_item()";
-	    "<C-p>" = "cmp.mapping.select_prev_item()";
-	    "<C-Space>" = "cmp.mapping.complete {}";
-	    "<CR>" = ''cmp.mapping.confirm {
-	      behavior = cmp.ConfirmBehavior.Replace,
-	      select = true,
-	    }'';
-	    "<Tab>" = "cmp.mapping(function(fallback) if cmp.visible() then cmp.select_next_item() else fallback() end end, { 'i', 's' })";
-	    "<S-Tab>" = "cmp.mapping(function(fallback) if cmp.visible() then cmp.select_prev_item() else fallback() end end, { 'i', 's' })";
-	  };
-	  sources = [ 
-	    { name = "luasnip"; }
-	    { name = "nvim_lsp"; }
-	    { name = "path"; }
-	    { name = "nvim_lsp_signature_help"; }
-	    { 
-	      name = "buffer"; 
-	      option.get_bufnrs.__raw = "vim.api.nvim_list_bufs"; # Words from other buffers are suggested 
-	    }
-	  ];
+          mapping = {
+            "<C-n>" = "cmp.mapping.select_next_item()";
+            "<C-p>" = "cmp.mapping.select_prev_item()";
+            "<C-Space>" = "cmp.mapping.complete {}";
+            "<CR>" = ''              cmp.mapping.confirm {
+              	      behavior = cmp.ConfirmBehavior.Replace,
+              	      select = true,
+              	    }'';
+            "<Tab>" = "cmp.mapping(function(fallback) if cmp.visible() then cmp.select_next_item() else fallback() end end, { 'i', 's' })";
+            "<S-Tab>" = "cmp.mapping(function(fallback) if cmp.visible() then cmp.select_prev_item() else fallback() end end, { 'i', 's' })";
+          };
+          sources = [
+            {name = "luasnip";}
+            {name = "nvim_lsp";}
+            {name = "path";}
+            {name = "nvim_lsp_signature_help";}
+            {
+              name = "buffer";
+              option.get_bufnrs.__raw = "vim.api.nvim_list_bufs"; # Words from other buffers are suggested
+            }
+          ];
 
-	  completion.autocomplete = [ "TextChanged" ];
-	};
+          completion.autocomplete = ["TextChanged"];
+        };
       };
       cmp-nvim-lsp.enable = true;
       cmp-nvim-lsp-signature-help.enable = true;
 
       luasnip = {
-	enable = true;
+        enable = true;
       };
       fugitive = {
         enable = true;
       };
       lualine = {
-	enable = true;
-	componentSeparators = {
-	  left = "|";
-	  right = "|";
-	};
-	sectionSeparators = {
-	  left = "";
-	  right = "";
-	};
+        enable = true;
+        componentSeparators = {
+          left = "|";
+          right = "|";
+        };
+        sectionSeparators = {
+          left = "";
+          right = "";
+        };
       };
       indent-blankline = {
-	enable = true;
+        enable = true;
       };
       comment-nvim = {
-	enable = true;
+        enable = true;
       };
 
       gitsigns = {
         enable = true;
-	signs = {
-	  add = { text = "+"; };
-	  change = { text = "~"; };
-	  delete = { text = "_"; };
-	  topdelete = { text = "‾"; };
-	  changedelete = { text = "~"; };
-	};
+        signs = {
+          add = {text = "+";};
+          change = {text = "~";};
+          delete = {text = "_";};
+          topdelete = {text = "‾";};
+          changedelete = {text = "~";};
+        };
       };
       harpoon = {
         enable = true;
-	enableTelescope = true;
-	keymaps = {
-	  addFile = "m";
+        enableTelescope = true;
+        keymaps = {
+          addFile = "m";
           navFile = {
             "1" = "<M-a>";
-	    "2" = "<M-s>";
-	    "3" = "<M-d>";
-	    "4" = "<M-f>";
-	  };
-	  toggleQuickMenu = "<C-e>";
-          
-	};
+            "2" = "<M-s>";
+            "3" = "<M-d>";
+            "4" = "<M-f>";
+          };
+          toggleQuickMenu = "<C-e>";
+        };
       };
       treesitter = {
-	enable = true;
-	nixvimInjections = true;
-	indent = true;
+        enable = true;
+        nixvimInjections = true;
+        indent = true;
 
-	grammarPackages = with config.programs.nixvim.plugins.treesitter.package.builtGrammars; [
-	  templ
-	  bash
-	  javascript
-	  nix
-	  lua
-	  go
-	  rust
-	];
+        grammarPackages = with config.programs.nixvim.plugins.treesitter.package.builtGrammars; [
+          templ
+          bash
+          javascript
+          nix
+          lua
+          go
+          rust
+        ];
       };
       treesitter-textobjects.enable = true;
       lsp = {
         enable = true;
-	servers = {
-	  templ.enable = true;
-	  gopls.enable = true;
-	  lua-ls.enable = true;
-	  # uncomment when nixd doesnt depend on nix 1.16. https://github.com/nix-community/nixd/issues/357
-	  # nixd.enable = true;
-	  tsserver = {
-	    enable = true;
-	    package = null;
-	  };
-	  denols = {
-	    enable = true;
-	    filetypes = [ "typescript" "javascript" ];
-	    cmd = ["deno" "lsp"];
-	  };
-	  jsonls = {
-	    enable = true;
-	  };
-	  rust-analyzer = {
-	    enable = true;
-	    installCargo = false;
-	    installRustc = false;
-	  };
-	};
-	keymaps = {
+        servers = {
+          templ.enable = true;
+          gopls.enable = true;
+          lua-ls.enable = true;
+          # uncomment when nixd doesnt depend on nix 1.16. https://github.com/nix-community/nixd/issues/357
+          # nixd.enable = true;
+          tsserver = {
+            enable = true;
+            package = null;
+          };
+          denols = {
+            enable = true;
+            filetypes = ["typescript" "javascript"];
+            cmd = ["deno" "lsp"];
+          };
+          jsonls = {
+            enable = true;
+          };
+          rust-analyzer = {
+            enable = true;
+            installCargo = false;
+            installRustc = false;
+          };
+        };
+        keymaps = {
           lspBuf = {
             "<leader>rn" = "rename";
-	    "<leader>ca" = "code_action";
-	    "gd" = "definition";
-	    "gI" = "implementation";
-	    "<leader>D" = "type_definition";
-	    "K" = "hover";
-	    "<C-k>" = "signature_help";
-	    "gD" = "declaration"; 
-	    "<leader>wa" = "add_workspace_folder";
-	    "<leader>wr" = "remove_workspace_folder";
-	    "<leader>wl" = "list_workspace_folders";
-	    "<C-f>" = "format";
-	  };
-	  diagnostic = {
+            "<leader>ca" = "code_action";
+            "gd" = "definition";
+            "gI" = "implementation";
+            "<leader>D" = "type_definition";
+            "K" = "hover";
+            "<C-k>" = "signature_help";
+            "gD" = "declaration";
+            "<leader>wa" = "add_workspace_folder";
+            "<leader>wr" = "remove_workspace_folder";
+            "<leader>wl" = "list_workspace_folders";
+            "<C-f>" = "format";
+          };
+          diagnostic = {
             "[d" = "goto_prev";
-	    "]d" = "goto_next";
-	    "<leader>e" = "open_float"; 
-	    "<leader>q" = "setloclist";
-	  };
-	};
+            "]d" = "goto_next";
+            "<leader>e" = "open_float";
+            "<leader>q" = "setloclist";
+          };
+        };
       };
       fidget = {
         enable = true;
@@ -271,23 +274,23 @@
       };
       telescope = {
         enable = true;
-	extensions.fzf-native.enable = true;
-	keymaps = {
+        extensions.fzf-native.enable = true;
+        keymaps = {
           "<leader>?" = "oldfiles";
-	  "<leader><Space>" = "buffers";
-	  "<leader>gr" = "lsp_references";
-	  "<leader>ds" = "lsp_document_symbols";
-	  "<leader>ws" = "lsp_dynamic_workspace_symbols";
-	  "<leader>gf" = "git_files";
-	  "<leader>sf" = "find_files";
-	  "<leader>sh" = "help_tags";
-	  "<leader>sw" = "grep_string";
-	  "<leader>sg" = "live_grep";
-	  "<leader>sd" = "diagnostics";
-	  "<leader>st" = "treesitter";
-	};
+          "<leader><Space>" = "buffers";
+          "<leader>gr" = "lsp_references";
+          "<leader>ds" = "lsp_document_symbols";
+          "<leader>ws" = "lsp_dynamic_workspace_symbols";
+          "<leader>gf" = "git_files";
+          "<leader>sf" = "find_files";
+          "<leader>sh" = "help_tags";
+          "<leader>sw" = "grep_string";
+          "<leader>sg" = "live_grep";
+          "<leader>sd" = "diagnostics";
+          "<leader>st" = "treesitter";
+        };
       };
     };
-    extraPlugins = with pkgs.vimPlugins; [ neodev-nvim vim-rhubarb vim-sleuth plenary-nvim ];
+    extraPlugins = with pkgs.vimPlugins; [neodev-nvim vim-rhubarb vim-sleuth plenary-nvim];
   };
 }

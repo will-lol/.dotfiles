@@ -1,5 +1,5 @@
-{ pkgs, ... }: {
-  home.packages = with pkgs; [ vesktop ];
+{pkgs, ...}: {
+  home.packages = with pkgs; [vesktop];
   xdg.desktopEntries = {
     discord = {
       name = "Discord";

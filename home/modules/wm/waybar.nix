@@ -1,6 +1,6 @@
-{ config, ... }: {
+{config, ...}: {
   wayland.windowManager.hyprland = {
-    settings.exec-once = [ "waybar" ];
+    settings.exec-once = ["waybar"];
   };
   programs.waybar = {
     enable = true;
@@ -20,29 +20,29 @@
       };
     };
     style = ''
-    * {
-     font-family: monospace;
-     color: #${config.colorScheme.palette.base05};
-     background-color: #${config.colorScheme.palette.base01}
-    }
+      * {
+       font-family: monospace;
+       color: #${config.colorScheme.palette.base05};
+       background-color: #${config.colorScheme.palette.base01}
+      }
 
-    #workspaces button {
-     border: none;
-    }
+      #workspaces button {
+       border: none;
+      }
 
-    #workspaces button:hover {
-     box-shadow: none;
-     background: transparent;
-     border: none;
-    }
+      #workspaces button:hover {
+       box-shadow: none;
+       background: transparent;
+       border: none;
+      }
 
-    #workspaces button.active {
-     color: #F00;
-    }
+      #workspaces button.active {
+       color: #F00;
+      }
 
-    #cpu, #memory {
-     padding: 0 0.5rem;
-    }
+      #cpu, #memory {
+       padding: 0 0.5rem;
+      }
     '';
   };
 }

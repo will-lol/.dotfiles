@@ -1,7 +1,10 @@
-{ pkgs, nix-colors, ... }: 
-  let user = "will"; 
-  in 
 {
+  pkgs,
+  nix-colors,
+  ...
+}: let
+  user = "will";
+in {
   # Home Manager needs a bit of information about you and the paths it should
   # manage.
   home.username = "will";
