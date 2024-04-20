@@ -1,6 +1,6 @@
-{
+{config, ...}: {
   virtualisation.libvirtd.enable = true;
   virtualisation.docker.enable = true;
   programs.virt-manager.enable = true;
-  users.users.will.extraGroups = ["libvirtd" "docker"];
+  users.users.${config.username}.extraGroups = ["libvirtd" "docker"];
 }

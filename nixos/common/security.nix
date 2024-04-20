@@ -1,4 +1,4 @@
-{pkgs, ...}: {
+{pkgs, config, ...}: {
   programs.gnupg.agent = {
     enable = true;
     pinentryPackage = pkgs.pinentry-curses;
@@ -10,7 +10,7 @@
     sudo = {
       extraRules = [
         {
-          users = ["will"];
+          users = [config.username];
           commands = [
             {
               command = "${pkgs.ydotool}/bin/";
@@ -22,5 +22,5 @@
     };
   };
 
-  users.users.will.extraGroups = ["wheel"];
+  users.users.${config.username}.extraGroups = ["wheel"];
 }

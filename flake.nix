@@ -99,12 +99,19 @@
           [
             ./nixos/desktop
             home-manager.nixosModules.home-manager
-            {
+            ({config, ...}: {
               home-manager = {
                 useUserPackages = true;
-                users.will.imports =
+                users.${config.username}.imports =
                   [
                     ./home/hosts/desktop
+                    ({pkgs, ...}: {
+                      options.username = with pkgs.lib; mkOption {
+                        type = types.str;
+                        default = config.username;
+                        description = "The username of the user";
+                      };
+                    })
                   ]
                   ++ homeManagerModules;
                 extraSpecialArgs = {
@@ -112,7 +119,7 @@
                   inherit xremap-flake;
                 };
               };
-            }
+            })
           ]
           ++ nixosModules;
       };
@@ -131,12 +138,19 @@
           [
             ./nixos/laptop
             home-manager.nixosModules.home-manager
-            {
+            ({config, ...}: {
               home-manager = {
                 useUserPackages = true;
-                users.will.imports =
+                users.${config.username}.imports =
                   [
                     ./home/hosts/laptop
+                    ({pkgs, ...}: {
+                      options.username = with pkgs.lib; mkOption {
+                        type = types.str;
+                        default = config.username;
+                        description = "The username of the user";
+                      };
+                    })
                   ]
                   ++ homeManagerModules;
                 extraSpecialArgs = {
@@ -144,7 +158,7 @@
                   inherit xremap-flake;
                 };
               };
-            }
+            })
           ]
           ++ nixosModules;
       };
