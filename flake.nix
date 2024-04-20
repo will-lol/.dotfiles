@@ -28,10 +28,17 @@
 
     microvm.url = "github:astro/microvm.nix";
     microvm.inputs.nixpkgs.follows = "nixpkgs";
+
+    deploy-rs.url = "github:serokell/deploy-rs";
+    deploy-rs.inputs.nixpkgs.follows = "nixpkgs";
+
+    utils.url = "github:numtide/flake-utils";
   };
 
   outputs = {
+    self,
     nixpkgs,
+    utils,
     darwin,
     home-manager,
     nix-colors,
@@ -40,6 +47,7 @@
     xremap-flake,
     sops-nix,
     nix-flatpak,
+    deploy-rs,
     microvm,
     ...
   }: let
@@ -58,11 +66,8 @@
     ];
     nixosModules = [sops-nix.nixosModules.sops nix-flatpak.nixosModules.nix-flatpak];
   in {
-    devShell.x86_64-linux = pkgs.mkShell {
-      packages = [(import ./apply-script.nix {inherit pkgs;})];
-    };
-    devShell.aarch64-linux = pkgs.mkShell {
-      packages = [(import ./apply-script.nix {inherit pkgs;})];
+    devShells.${system}.default = pkgs.mkShell {
+      packages = [(import ./apply-script.nix {inherit pkgs;}) deploy-rs.defaultPackage.${system}];
     };
     darwinConfigurations = {
       Wills-MacBook-Pro = darwin.lib.darwinSystem {
@@ -142,6 +147,18 @@
             }
           ]
           ++ nixosModules;
+      };
+    };
+    deploy.nodes.server = {
+      hostname = "server";
+      fastConnection = true;
+      interactiveSudo = true;
+      profiles = {
+        system = {
+          sshUser = "admin";
+          path = deploy-rs.lib.x86_64-linux.activate.nixos self.nixosConfigurations.server;
+          user = "root";
+        };
       };
     };
   };

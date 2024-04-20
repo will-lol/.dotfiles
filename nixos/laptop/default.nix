@@ -6,6 +6,7 @@
     ./graphics.nix
     ./fingerprint.nix
     ../common
+    ../pc
   ];
 
   system.stateVersion = "23.11";
