@@ -7,6 +7,7 @@
     ./steam.nix
     ./networking.nix
     ../common
+    ../pc
   ];
 
   system.stateVersion = "23.05";

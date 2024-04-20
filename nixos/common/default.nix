@@ -1,20 +1,14 @@
 {pkgs, ...}: {
   imports = [
     ./bootloader.nix
-    ./nix.nix
-    ./sound.nix
-    ./users.nix
-    ./desktop.nix
-    ./tailscale.nix
-    ./printer.nix
-    ./secrets.nix
     ./hardware.nix
     ./packages.nix
     ./security.nix
-    ./iossupport.nix
+    ./tailscale.nix
+    ./nix.nix
+    ./secrets.nix
+    ./sound.nix
     ./virtualisation.nix
-    ./flatpak.nix
-    ./minecraft.nix
   ];
 
   i18n.defaultLocale = "en_US.UTF-8";
