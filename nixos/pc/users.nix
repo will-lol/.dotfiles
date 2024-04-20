@@ -1,7 +1,7 @@
-{
+{config, ...}: {
   users = {
     users = {
-      will = {
+      ${config.username} = {
         isNormalUser = true;
         uid = 1000;
       };

@@ -1,13 +1,14 @@
 {
   pkgs,
   lib,
+  config,
   ...
 }: {
   home.packages = with pkgs; [ydotool];
 
   systemd.user.services.xremap.Service.Environment = lib.mkForce [
-    "PATH=/run/current-system/sw/bin:/home/will/.nix-profile/bin"
-    "YDOTOOL_SOCKET=/home/will/.ydotool_socket"
+    "PATH=/run/current-system/sw/bin:/home/${config.username}/.nix-profile/bin"
+    "YDOTOOL_SOCKET=/home/${config.username}/.ydotool_socket"
   ];
 
   wayland.windowManager.hyprland.settings = {
