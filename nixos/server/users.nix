@@ -3,7 +3,6 @@
     users = {
       ${config.username} = {
         isNormalUser = true;
-        extraGroups = ["wheel" "sudo"];
         uid = 1000;
       };
     };
