@@ -2,6 +2,7 @@
   imports = [
     ./hardware.nix
     ./networking.nix
+    ./users.nix
     ../common
   ];
 
@@ -12,6 +13,6 @@
   };
 
   config = {
-    system.stateVersion = "23.05";
+    system.stateVersion = "24.05";
   };
 }
