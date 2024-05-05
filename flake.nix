@@ -64,6 +64,7 @@
       xremap-flake.homeManagerModules.default
       nix-flatpak.homeManagerModules.nix-flatpak
     ];
+    homeSharedModules = [sops-nix.homeManagerModules.sops];
     nixosModules = [sops-nix.nixosModules.sops nix-flatpak.nixosModules.nix-flatpak];
   in {
     devShells.${system}.default = pkgs.mkShell {
@@ -102,6 +103,7 @@
             ({config, ...}: {
               home-manager = {
                 useUserPackages = true;
+                sharedModules = homeSharedModules;
                 users.${config.username}.imports =
                   [
                     ./home/hosts/desktop
@@ -141,6 +143,7 @@
             ({config, ...}: {
               home-manager = {
                 useUserPackages = true;
+                sharedModules = homeSharedModules;
                 users.${config.username}.imports =
                   [
                     ./home/hosts/laptop
@@ -164,12 +167,12 @@
       };
     };
     deploy.nodes.server = {
-      hostname = "server";
+      hostname = "192.168.1.26";
       fastConnection = true;
       interactiveSudo = true;
       profiles = {
         system = {
-          sshUser = "admin";
+          sshUser = "nixos";
           path = deploy-rs.lib.x86_64-linux.activate.nixos self.nixosConfigurations.server;
           user = "root";
         };

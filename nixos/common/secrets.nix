@@ -5,5 +5,7 @@
   sops.secrets.samba = {};
   sops.secrets.tailscale = {};
   sops.secrets.github = {};
+  sops.secrets."bitwarden/client_id" = {}; 
+  sops.secrets."bitwarden/client_secret" = {};
   environment.systemPackages = with pkgs; [cifs-utils];
 }
