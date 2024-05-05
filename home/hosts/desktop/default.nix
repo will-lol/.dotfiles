@@ -5,6 +5,7 @@
   ...
 }: {
   imports = [
+    ../../../secrets.nix
     ../../modules/tui
     ../../modules/tui/linux
     ../../modules/wm

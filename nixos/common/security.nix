@@ -22,5 +22,7 @@
     };
   };
 
+  environment.systemPackages = with pkgs; [cifs-utils]; # for age encryption with sops
+
   users.users.${config.username}.extraGroups = ["wheel"];
 }
