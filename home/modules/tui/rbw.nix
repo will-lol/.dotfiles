@@ -16,7 +16,7 @@
       WantedBy = ["default.target"];
     };
     Service = {
-      ExecStart = "${pkgs.writeShellScript} 'rbw-login'" ''
+      ExecStart = pkgs.writeShellScript "rbw-login" ''
       '';
     };
     
