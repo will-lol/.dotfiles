@@ -1,12 +1,12 @@
 {pkgs, ...}: {
   imports = [
+    ../../secrets.nix
     ./bootloader.nix
     ./hardware.nix
     ./packages.nix
     ./security.nix
     ./tailscale.nix
     ./nix.nix
-    ./secrets.nix
     ./sound.nix
     ./virtualisation.nix
   ];
