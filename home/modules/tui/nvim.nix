@@ -79,10 +79,12 @@
 
     colorschemes.tokyonight = {
       enable = true;
-      style = "storm";
+      settings = {
+        style = "storm";
+      };
     };
 
-    options = {
+    opts = {
       completeopt = ["menu" "menuone" "noselect"];
       cursorline = true;
       number = true;
@@ -115,7 +117,7 @@
           filetypes = {
             "*" = true;
           };
-          nodeCommand = "${pkgs.nodejs_21}/bin/node";
+          nodeCommand = "${pkgs.nodejs_22}/bin/node";
         };
       };
       cmp = {
@@ -173,18 +175,20 @@
       indent-blankline = {
         enable = true;
       };
-      comment-nvim = {
+      comment = {
         enable = true;
       };
 
       gitsigns = {
         enable = true;
-        signs = {
-          add = {text = "+";};
-          change = {text = "~";};
-          delete = {text = "_";};
-          topdelete = {text = "‾";};
-          changedelete = {text = "~";};
+        settings = {
+          signs = {
+            add = {text = "+";};
+            change = {text = "~";};
+            delete = {text = "_";};
+            topdelete = {text = "‾";};
+            changedelete = {text = "~";};
+          };
         };
       };
       harpoon = {
