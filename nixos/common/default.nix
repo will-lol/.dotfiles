@@ -9,6 +9,7 @@
     ./nix.nix
     ./sound.nix
     ./virtualisation.nix
+    ./users.nix
   ];
 
   i18n.defaultLocale = "en_AU.UTF-8";

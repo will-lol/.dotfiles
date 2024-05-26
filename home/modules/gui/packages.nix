@@ -6,7 +6,9 @@
     calibre
     obs-studio
     audacity
+    inkscape
     xorg.xwininfo
+    fontforge-gtk
     # zotero
     mpv
     lunar-client

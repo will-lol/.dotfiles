@@ -7,6 +7,5 @@
     ./dict.nix
     ./iossupport.nix
     ./printer.nix
-    ./users.nix
   ]; 
 }
