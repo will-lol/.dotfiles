@@ -12,7 +12,12 @@
   boot.initrd.kernelModules = [ ];
   boot.kernelModules = [ "kvm-intel" ];
   boot.extraModulePackages = [ ];
-  boot.swraid.enable = true;
+  boot.swraid = {
+    enable = true;
+    mdadmConf = ''
+      MAILADDR root
+    '';
+  };
 
   fileSystems."/" =
     { device = "/dev/disk/by-uuid/5a79d0cd-6ae7-47ea-8d7b-341865c5495a";
