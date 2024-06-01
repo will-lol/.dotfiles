@@ -2,6 +2,7 @@
   imports = [
     ./hardware.nix
     ./networking.nix
+    ./ssh.nix
     ../common
   ];
 
