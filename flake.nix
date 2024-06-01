@@ -130,7 +130,7 @@
         modules =
           [
             ./nixos/server
-            microvm.nixosModules.microvm
+            # microvm.nixosModules.microvm
           ]
           ++ nixosModules;
       };
