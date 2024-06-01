@@ -1,8 +1,8 @@
-{config, ...}: {
+{ config, ... }: {
   security.sudo.extraRules = [
     {
-      users = ["${config.username}"];
-      options = ["NOPASSWD"];
+      users = [ "${config.username}" ];
+      commands = [ { command = "ALL"; options = [ "NOPASSWD" ] } ];
     }
   ];
 }
