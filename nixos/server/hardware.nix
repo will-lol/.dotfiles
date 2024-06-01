@@ -12,6 +12,7 @@
   boot.initrd.kernelModules = [ ];
   boot.kernelModules = [ "kvm-intel" ];
   boot.extraModulePackages = [ ];
+  boot.swraid.enable = true;
 
   fileSystems."/" =
     { device = "/dev/disk/by-uuid/5a79d0cd-6ae7-47ea-8d7b-341865c5495a";
@@ -21,6 +22,11 @@
   fileSystems."/boot" =
     { device = "/dev/disk/by-uuid/FF1B-F843";
       fsType = "vfat";
+    };
+
+  fileSystems."/mnt/store" = 
+    { device = "/dev/disk/by-uuid/eb254705-bc49-4ba6-85c2-48e944237188";
+      fsType = "ext4";
     };
 
   swapDevices =
