@@ -167,7 +167,7 @@
       };
     };
     deploy.nodes.server = {
-      hostname = "192.168.1.26";
+      hostname = "server.tailf4e2d.ts.net";
       fastConnection = true;
       profiles = {
         system = {
