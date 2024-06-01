@@ -13,6 +13,7 @@
     };
     settings = {
       auto-optimise-store = true;
+      trusted-users = ["${config.username}"];
     };
     extraOptions = ''
       experimental-features = nix-command flakes
