@@ -8,7 +8,7 @@
     wantedBy = ["podman-dufs-secrets.service"];
     before = ["podman-dufs-secrets.service"];
     script = ''
-      printf "admin:$(cat ${config.sops.secrets."dufs/hash".path})@/:rw|@/" | podman secret create dufs-auth -
+      printf "admin:$(cat ${config.sops.secrets."dufs/hash".path})@/:rw|@/" | ${pkgs.podman}/bin/podman secret create dufs-auth -
     '';
   };
   systemd.services.podman-dufs = {
