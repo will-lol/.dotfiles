@@ -6,7 +6,7 @@
     wantedBy = ["mnt-store.mount"];
     before = ["mnt-store.mount"];
     script = ''
-      echo "http://server.squeaker-eel.ts.net/ admin $(${config.sops.secrets."dufs/pw".path})" > /etc/davfs2/secrets 
+      echo "http://server.squeaker-eel.ts.net/ admin \"$(cat ${config.sops.secrets."dufs/pw".path})\"" > /etc/davfs2/secrets 
       chmod 600 /etc/davfs2/secrets
     '';
   };

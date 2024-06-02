@@ -10,4 +10,5 @@
   sops.secrets."sshkey/public" = {};
   sops.secrets."dufs/pw" = {};
   sops.secrets."dufs/hash" = {};
+  sops.secrets."pihole" = {};
 }
