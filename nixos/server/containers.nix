@@ -1,17 +1,27 @@
-{pkgs, ...}: {
+{pkgs, config, ...}: {
+  networking.firewall = {
+    enable = true;
+    allowedTCPPorts = [80 443];
+  };
   virtualisation.oci-containers.containers = {
     dufs = {
-      ports = ["80:8080"];
+      ports = ["80:5000"];
       volumes = [
         "/mnt/store:/data"
       ];
-      imageFile = pkgs.dockertools.buildLayeredImage {
+      image = "dufs";
+      autoStart = true;
+      imageFile = pkgs.dockerTools.buildLayeredImage {
         name = "dufs";
+        tag = "latest";
         config = {
-          Cmd = ["${pkgs.dufs}" "-A" "-b" "127.0.0.1" "-p" "8080"];
+          Cmd = ["${pkgs.dufs}/bin/dufs" "-A"];
           WorkingDir = "/data";
-          Volumes = {
-            "/data" = {};
+          ExposedPorts = {
+            "5000/tcp" = {};
+          };
+          Env = {
+            "DUFS_AUTH" = "admin:$(cat ${config.sops.secrets."dufs/hash".path})@/:rw";
           };
         };
       };
