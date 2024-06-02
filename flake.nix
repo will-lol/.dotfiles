@@ -167,7 +167,7 @@
       };
     };
     deploy.nodes.server = {
-      hostname = "server.tailf4e2d.ts.net";
+      hostname = "server.squeaker-eel.ts.net";
       fastConnection = true;
       profiles = {
         system = {
