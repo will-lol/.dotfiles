@@ -3,8 +3,8 @@
     ./hardware.nix
     ./networking.nix
     ./ssh.nix
-    ./containers.nix
     ./sudo.nix
+    ./containers
     ../common
   ];
 
