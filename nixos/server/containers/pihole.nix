@@ -9,7 +9,7 @@
     wantedBy = ["podman-pihole-secrets.service"];
     before = ["podman-pihole-secrets.service"];
     script = ''
-      ${pkgs.podman}/bin/podman secret rm pihole-auth
+      ${pkgs.podman}/bin/podman secret rm pihole-auth -i
       cat ${config.sops.secrets."pihole".path} | ${pkgs.podman}/bin/podman secret create pihole-auth -
     '';
   };
@@ -25,16 +25,20 @@
       ports = [
         "53:53/tcp"
         "53:53/udp"
-        "80:8080/tcp"
+        "8080:8080/tcp"
       ];
       environment = {
         TZ = "Australia/Hobart";
+        WEB_PORT = "8080";
+        DNSMASQ_LISTENING = "all";
+        PIHOLE_DNS_ = "2620:fe::11;2620:fe::fe:11;9.9.9.11;149.112.112.11";
+        DNSSEC = "true";
       };
       image = "pihole/pihole";
       imageFile = pkgs.dockerTools.pullImage {
         imageName = "pihole/pihole";
         imageDigest = "sha256:8b1f31f46d94c3c1b8f509b302f28b4028483009bd27a9cbfd9b80185dd0687d";
-        sha256 = pkgs.lib.fakeHash;
+        sha256 = "sha256-XqWZDZYvpRBPWZxR9X8gNeyVKqRpXPlVu+3rfdBOIvA=";
         finalImageTag = "latest";
         finalImageName = "pihole/pihole";
       };
