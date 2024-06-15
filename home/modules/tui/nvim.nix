@@ -229,14 +229,10 @@
           lua-ls.enable = true;
           # uncomment when nixd doesnt depend on nix 1.16. https://github.com/nix-community/nixd/issues/357
           # nixd.enable = true;
+
           tsserver = {
             enable = true;
             package = null;
-          };
-          denols = {
-            enable = true;
-            filetypes = ["typescript" "javascript"];
-            cmd = ["deno" "lsp"];
           };
           jsonls = {
             enable = true;
