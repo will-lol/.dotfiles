@@ -22,6 +22,10 @@
       extraOptions = [
         "--secret=pihole-auth,type=env,target=WEBPASSWORD"
       ];
+      volumes = [
+        "pihole:/etc/pihole"
+        "dnsmasq:/etc/dnsmasq.d"
+      ];
       ports = [
         "53:53/tcp"
         "53:53/udp"
@@ -31,8 +35,9 @@
         TZ = "Australia/Hobart";
         WEB_PORT = "8080";
         DNSMASQ_LISTENING = "all";
-        PIHOLE_DNS_ = "2620:fe::11;2620:fe::fe:11;9.9.9.11;149.112.112.11";
+        PIHOLE_DNS_ = "1.1.1.1;1.0.0.1;2606:4700:4700::1111;2606:4700:4700::1001";
         DNSSEC = "true";
+        QUERY_LOGGING = "false";
       };
       image = "pihole/pihole";
       imageFile = pkgs.dockerTools.pullImage {
