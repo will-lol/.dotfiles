@@ -210,7 +210,7 @@
         nixvimInjections = true;
 
         settings = {
-          indent = enable;
+          indent.enable = true;
         };
 
         grammarPackages = with config.programs.nixvim.plugins.treesitter.package.builtGrammars; [
