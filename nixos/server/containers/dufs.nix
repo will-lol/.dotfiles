@@ -9,7 +9,7 @@
     before = ["podman-dufs-secrets.service"];
     script = ''
       ${pkgs.podman}/bin/podman secret rm dufs-auth -i
-      printf "admin:$(cat ${config.sops.secrets."dufs/hash".path})@/:rw|@/pub" | ${pkgs.podman}/bin/podman secret create dufs-auth -
+      printf "@/pub:ro|admin:$(cat ${config.sops.secrets."dufs/hash".path})@/:rw,/pub:rw" | ${pkgs.podman}/bin/podman secret create dufs-auth -
     '';
   };
   systemd.services.podman-dufs = {

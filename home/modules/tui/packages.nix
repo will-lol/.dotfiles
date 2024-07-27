@@ -12,5 +12,6 @@
     kalker
     ffmpeg
     unzip
+    nix-output-monitor
   ];
 }

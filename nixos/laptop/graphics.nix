@@ -3,7 +3,7 @@
     libva-utils
     intel-gpu-tools
   ];
-  hardware.opengl = {
+  hardware.graphics = {
     enable = true;
     extraPackages = with pkgs; [
       intel-media-driver

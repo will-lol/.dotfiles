@@ -208,7 +208,10 @@
       treesitter = {
         enable = true;
         nixvimInjections = true;
-        indent = true;
+
+        settings = {
+          indent = enable;
+        };
 
         grammarPackages = with config.programs.nixvim.plugins.treesitter.package.builtGrammars; [
           templ
@@ -231,6 +234,10 @@
           # nixd.enable = true;
 
           tsserver = {
+            enable = true;
+            package = null;
+          };
+          terraformls = {
             enable = true;
             package = null;
           };
