@@ -8,5 +8,6 @@
     ./git.nix
     ./nvim.nix
     ./password.nix
+    ./docker-ecr.nix
   ];
 }

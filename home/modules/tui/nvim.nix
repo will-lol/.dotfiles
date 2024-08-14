@@ -19,6 +19,10 @@
 
     autoCmd = [
       {
+        event = "BufWritePre";
+        callback = { __raw = "function() vim.lsp.buf.format { async = false } end"; };
+      }
+      {
         event = "FileType";
         pattern = [
           "tex"
@@ -230,8 +234,7 @@
           templ.enable = true;
           gopls.enable = true;
           lua-ls.enable = true;
-          # uncomment when nixd doesnt depend on nix 1.16. https://github.com/nix-community/nixd/issues/357
-          # nixd.enable = true;
+          nixd.enable = true;
 
           tsserver = {
             enable = true;

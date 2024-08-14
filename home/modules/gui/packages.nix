@@ -10,6 +10,7 @@
     xorg.xwininfo
     fontforge-gtk
     # zotero
+    neovide
     mpv
     lunar-client
   ];
