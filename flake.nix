@@ -67,7 +67,7 @@
           macbook = darwin.lib.darwinSystem {
             inherit system;
             modules = [
-              ./darwin
+              ./darwin/macbook
               home-manager.darwinModules.home-manager
               ({ config, ... }: {
                 home-manager = {

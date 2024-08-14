@@ -4,7 +4,7 @@
   ...
 }: {
   imports = [
-    ../common/
+    ../common
   ];
 
   options.username = with pkgs.lib; mkOption {
