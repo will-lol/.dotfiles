@@ -74,7 +74,7 @@
                   useUserPackages = true;
                   sharedModules = homeSharedModules;
                   users.${config.username}.imports = [ 
-                    ./home/hosts/darwin 
+                    ./home/hosts/macbook
                     ({ pkgs, ... }: {
                       options.username = with pkgs.lib;
                         mkOption {
