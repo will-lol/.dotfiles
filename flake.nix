@@ -64,7 +64,7 @@
         };
 
         darwinConfigurations = {
-          Wills-MacBook-Pro = darwin.lib.darwinSystem {
+          willMacbook = darwin.lib.darwinSystem {
             system = "aarch64-darwin";
             modules = [
               ./darwin
