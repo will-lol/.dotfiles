@@ -64,8 +64,7 @@
         };
 
         darwinConfigurations = {
-          willMacbook = darwin.lib.darwinSystem {
-            system = "aarch64-darwin";
+          macbook = darwin.lib.darwinSystem {
             modules = [
               ./darwin
               home-manager.darwinModules.home-manager
