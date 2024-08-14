@@ -69,17 +69,26 @@
             modules = [
               ./darwin
               home-manager.darwinModules.home-manager
-              {
+              ({ config, ... }: {
                 home-manager = {
                   useUserPackages = true;
-                  users.will.imports = [ ./home/hosts/darwin ]
-                    ++ homeManagerModules;
+                  users.${config.username}.imports = [ 
+                    ./home/hosts/darwin 
+                    ({ pkgs, ... }: {
+                      options.username = with pkgs.lib;
+                        mkOption {
+                          type = types.str;
+                          default = config.username;
+                          description = "The username of the user";
+                        };
+                    })
+                  ] ++ homeManagerModules;
                   extraSpecialArgs = {
                     inherit nix-colors;
                     inherit xremap-flake;
                   };
                 };
-              }
+              })
             ];
           };
         };
