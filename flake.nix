@@ -72,6 +72,7 @@
               ({ config, ... }: {
                 home-manager = {
                   useUserPackages = true;
+                  sharedModules = homeSharedModules;
                   users.${config.username}.imports = [ 
                     ./home/hosts/darwin 
                     ({ pkgs, ... }: {
