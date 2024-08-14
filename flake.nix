@@ -43,14 +43,18 @@
           config = { allowUnfree = true; };
         };
         inherit (nixpkgs) lib;
+
         homeManagerModules = [
           nixvim.homeManagerModules.nixvim
           nur.nixosModules.nur
           nix-colors.homeManagerModules.default
+        ];
+        homeManagerModulesExtended = [
           xremap-flake.homeManagerModules.default
           nix-flatpak.homeManagerModules.nix-flatpak
-        ];
+        ] ++ homeManagerModules;
         homeSharedModules = [ sops-nix.homeManagerModules.sops ];
+
         nixosModules =
           [ sops-nix.nixosModules.sops nix-flatpak.nixosModules.nix-flatpak ];
       in {
@@ -113,7 +117,7 @@
                           description = "The username of the user";
                         };
                     })
-                  ] ++ homeManagerModules;
+                  ] ++ homeManagerModulesExtended;
                   extraSpecialArgs = {
                     inherit nix-colors;
                     inherit xremap-flake;
@@ -148,7 +152,7 @@
                           description = "The username of the user";
                         };
                     })
-                  ] ++ homeManagerModules;
+                  ] ++ homeManagerModulesExtended;
                   extraSpecialArgs = {
                     inherit nix-colors;
                     inherit xremap-flake;
