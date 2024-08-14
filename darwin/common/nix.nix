@@ -1,6 +1,6 @@
 { pkgs, config, ... }: {
 	nix = {
-		package = pkgs.nixUnstable;
+		package = pkgs.nixFlakes;
 		settings.trusted-users = [ "@admin" "${config.username}" ];
 		extraOptions = ''
 			experimental-features = nix-command flakes
