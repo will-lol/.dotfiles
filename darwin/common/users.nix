@@ -5,4 +5,5 @@
 		isHidden = false;
 		shell = pkgs.zsh;
 	};
+	programs.zsh.enable = true;
 }

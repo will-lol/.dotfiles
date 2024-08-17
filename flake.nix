@@ -20,8 +20,8 @@
     sops-nix.url = "github:Mic92/sops-nix";
     sops-nix.inputs.nixpkgs.follows = "nixpkgs";
 
-    darwin.url = "github:LnL7/nix-darwin/master";
-    darwin.inputs.nixpkgs.follows = "nixpkgs";
+    nix-darwin.url = "github:LnL7/nix-darwin/master";
+    nix-darwin.inputs.nixpkgs.follows = "nixpkgs";
 
     nix-flatpak.url = "github:gmodena/nix-flatpak/?ref=v0.3.0";
 
@@ -30,53 +30,63 @@
 
     deploy-rs.url = "github:serokell/deploy-rs";
     deploy-rs.inputs.nixpkgs.follows = "nixpkgs";
-
-    utils.url = "github:numtide/flake-utils";
   };
 
-  outputs = { self, nixpkgs, utils, darwin, home-manager, nix-colors, nur
-    , nixvim, xremap-flake, sops-nix, nix-flatpak, deploy-rs, microvm, ... }:
-    utils.lib.eachDefaultSystem (system:
+  outputs = { self, nixpkgs, ... } @inputs:
       let
-        pkgs = import nixpkgs {
-          inherit system;
-          config = { allowUnfree = true; };
-        };
-        inherit (nixpkgs) lib;
+        supportedSystems = ["x86_64-linux" "aarch64-darwin"];
+
+        lib = import ./lib.nix { inherit nixpkgs supportedSystems; };
 
         homeManagerModules = [
-          nixvim.homeManagerModules.nixvim
-          nur.nixosModules.nur
-          nix-colors.homeManagerModules.default
+          inputs.nixvim.homeManagerModules.nixvim
+          inputs.nur.nixosModules.nur
+          inputs.nix-colors.homeManagerModules.default
         ];
+
         homeManagerModulesExtended = [
-          xremap-flake.homeManagerModules.default
-          nix-flatpak.homeManagerModules.nix-flatpak
+          inputs.xremap-flake.homeManagerModules.default
+          inputs.nix-flatpak.homeManagerModules.nix-flatpak
         ] ++ homeManagerModules;
-        homeSharedModules = [ sops-nix.homeManagerModules.sops ];
+        homeSharedModules = [ inputs.sops-nix.homeManagerModules.sops ];
 
         nixosModules =
-          [ sops-nix.nixosModules.sops nix-flatpak.nixosModules.nix-flatpak ];
+          [ inputs.sops-nix.nixosModules.sops inputs.nix-flatpak.nixosModules.nix-flatpak ];
       in {
-        devShells = {
+        devShells = lib.forAllSupportedSystems (system: let pkgs = nixpkgs.legacyPackages.${system}; in {
           default = pkgs.mkShell {
             packages = [
-              (import ./apply-script.nix { inherit pkgs; })
-              deploy-rs.defaultPackage.${system}
+              (pkgs.writeShellScriptBin "apply-nixos" ''
+                set -euox pipefail
+                pushd ~/.dotfiles
+                rm -f ~/.mozilla/firefox/default/search.json.mozlz4
+                sudo nixos-rebuild switch --upgrade --flake .#$1
+                popd
+              '')
+
+              (pkgs.writeShellScriptBin "apply-darwin" ''
+                set -euox pipefail
+                pushd ~/.dotfiles
+                darwin-rebuild switch --flake ".#$1"
+                popd
+              '')
+
+              inputs.deploy-rs.defaultPackage.${system}
             ];
           };
-        };
+        });
 
         darwinConfigurations = {
-          macbook = darwin.lib.darwinSystem {
-            inherit system;
+          macbook = inputs.nix-darwin.lib.darwinSystem {
+            system = "aarch64-linux";
             modules = [
               ./darwin/macbook
-              home-manager.darwinModules.home-manager
+              inputs.home-manager.darwinModules.home-manager
               ({ config, ... }: {
                 home-manager = {
                   useUserPackages = true;
                   sharedModules = homeSharedModules;
+                  extraSpecialArgs = [inputs.nix-colors];
                   users.${config.username}.imports = [ 
                     ./home/hosts/macbook
                     ({ pkgs, ... }: {
@@ -88,25 +98,23 @@
                         };
                     })
                   ] ++ homeManagerModules;
-                  extraSpecialArgs = {
-                    inherit nix-colors;
-                    inherit xremap-flake;
-                  };
                 };
               })
             ];
           };
         };
+
         nixosConfigurations = {
-          desktop = lib.nixosSystem {
-            inherit system;
+          desktop = nixpkgs.lib.nixosSystem {
+            system = "x86_64-linux";
             modules = [
               ./nixos/desktop
-              home-manager.nixosModules.home-manager
+              inputs.home-manager.nixosModules.home-manager
               ({ config, ... }: {
                 home-manager = {
                   useUserPackages = true;
                   sharedModules = homeSharedModules;
+                  extraSpecialArgs = [inputs.nix-colors];
                   users.${config.username}.imports = [
                     ./home/hosts/desktop
                     ({ pkgs, ... }: {
@@ -118,30 +126,29 @@
                         };
                     })
                   ] ++ homeManagerModulesExtended;
-                  extraSpecialArgs = {
-                    inherit nix-colors;
-                    inherit xremap-flake;
-                  };
                 };
               })
             ] ++ nixosModules;
           };
-          server = lib.nixosSystem {
-            inherit system;
+
+          server = nixpkgs.lib.nixosSystem {
+            system = "x86_64-linux";
             modules = [
               ./nixos/server
               # microvm.nixosModules.microvm
             ] ++ nixosModules;
           };
-          laptop = lib.nixosSystem {
-            inherit system;
+
+          laptop = nixpkgs.lib.nixosSystem {
+            system = "x86_64-linux";
             modules = [
               ./nixos/laptop
-              home-manager.nixosModules.home-manager
+              inputs.home-manager.nixosModules.home-manager
               ({ config, ... }: {
                 home-manager = {
                   useUserPackages = true;
                   sharedModules = homeSharedModules;
+                  extraSpecialArgs = [inputs.nix-colors];
                   users.${config.username}.imports = [
                     ./home/hosts/laptop
                     ({ pkgs, ... }: {
@@ -153,26 +160,23 @@
                         };
                     })
                   ] ++ homeManagerModulesExtended;
-                  extraSpecialArgs = {
-                    inherit nix-colors;
-                    inherit xremap-flake;
-                  };
                 };
               })
             ] ++ nixosModules;
           };
         };
+
         deploy.nodes.server = {
           hostname = "server.squeaker-eel.ts.net";
           fastConnection = true;
           profiles = {
             system = {
               sshUser = "admin";
-              path = deploy-rs.lib.x86_64-linux.activate.nixos
+              path = inputs.deploy-rs.lib.x86_64-linux.activate.nixos
                 self.nixosConfigurations.server;
               user = "root";
             };
           };
         };
-      });
+      };
 }
