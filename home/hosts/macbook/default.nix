@@ -9,6 +9,7 @@
     ../../modules/tui
     ../../modules/tui/darwin
     ../../modules/gui
+    ../../modules/gui/darwin
     ./home.nix
   ];
 }

@@ -13,10 +13,10 @@
         selection_fg = "${config.colorScheme.palette.base08}";
         split = "${config.colorScheme.palette.base04}";
         compose_cursor = "${config.colorScheme.palette.base0F}";
-        scrollbar_thumb = ${config.colorScheme.palette.base02};
+        scrollbar_thumb = "${config.colorScheme.palette.base02}";
 
-        regular0 = "${config.colorScheme.palette.base00}";
-        regular1 = "${config.colorScheme.palette.base08}";
+        ansi = ["${config.colorScheme.palette.base00}" "${config.colorScheme.palette.base08}" "${config.colorScheme.palette.base0B}" "${config.colorScheme.palette.base0A}" "${config.colorScheme.palette.base0D}" "${config.colorScheme.palette.base0E}" "${config.colorScheme.palette.base0C}" "${config.colorScheme.palette.base07}"];
+        regular1 = "";
         regular2 = "${config.colorScheme.palette.base0B}";
         regular3 = "${config.colorScheme.palette.base0A}";
         regular4 = "${config.colorScheme.palette.base0D}";

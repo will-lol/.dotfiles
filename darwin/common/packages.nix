@@ -1,8 +1,6 @@
-{
+{pkgs, ...}: {
   programs.bash.enable = false;
-
-	homebrew.casks = [
-		"firefox"
-		"slack"
-	];
+  environment.systemPackages = [
+    pkgs.nixVersions.latest
+  ];
 }
