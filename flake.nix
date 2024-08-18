@@ -86,7 +86,9 @@
                 home-manager = {
                   useUserPackages = true;
                   sharedModules = homeSharedModules;
-                  extraSpecialArgs = [inputs.nix-colors];
+                  extraSpecialArgs = {
+                    nix-colors = inputs.nix-colors;
+                  };
                   users.${config.username}.imports = [ 
                     ./home/hosts/macbook
                     ({ pkgs, ... }: {
