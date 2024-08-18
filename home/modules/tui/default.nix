@@ -1,6 +1,5 @@
 {
   imports = [
-    ./rbw.nix
     ./direnv.nix
     ./spell.nix
     ./packages.nix
@@ -9,5 +8,6 @@
     ./password.nix
     ./docker-ecr.nix
     ./fzf.nix
+    ./zsh.nix
   ];
 }

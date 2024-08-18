@@ -4,5 +4,6 @@
     ./zsh.nix
     ./nethogs.nix
     ./git.nix
+    ./rbw.nix
   ];
 }
