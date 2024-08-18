@@ -114,7 +114,10 @@
                 home-manager = {
                   useUserPackages = true;
                   sharedModules = homeSharedModules;
-                  extraSpecialArgs = [inputs.nix-colors];
+                  extraSpecialArgs = {
+                    nix-colors = inputs.nix-colors;
+                    xremap-flake = inputs.xremap-flake;
+                  };
                   users.${config.username}.imports = [
                     ./home/hosts/desktop
                     ({ pkgs, ... }: {
@@ -148,7 +151,10 @@
                 home-manager = {
                   useUserPackages = true;
                   sharedModules = homeSharedModules;
-                  extraSpecialArgs = [inputs.nix-colors];
+                  extraSpecialArgs = {
+                    nix-colors = inputs.nix-colors;
+                    xremap-flake = inputs.xremap-flake;
+                  };
                   users.${config.username}.imports = [
                     ./home/hosts/laptop
                     ({ pkgs, ... }: {
