@@ -31,9 +31,6 @@
     microvm.url = "github:astro/microvm.nix";
     microvm.inputs.nixpkgs.follows = "nixpkgs";
 
-    mac-app-util.url = "github:hraban/mac-app-util";
-    mac-app-util.inputs.nixpkgs.follows = "nixpkgs";
-
     deploy-rs.url = "github:serokell/deploy-rs";
     deploy-rs.inputs.nixpkgs.follows = "nixpkgs";
   };
@@ -51,7 +48,6 @@
         ];
 
         homeManagerModulesDarwin = [
-          inputs.mac-app-util.homeManagerModules.default
         ] ++ homeManagerModules;
 
         homeManagerModulesLinux = [
@@ -73,14 +69,14 @@
                 set -euox pipefail
                 pushd ~/.dotfiles
                 rm -f ~/.mozilla/firefox/default/search.json.mozlz4
-                sudo nixos-rebuild switch --upgrade --flake .#$1
+                sudo nixos-rebuild switch --log-format internal-json -v --upgrade --flake .#$1 |& ${pkgs.nix-output-monitor}/bin/nom --json
                 popd
               '')
 
               (pkgs.writeShellScriptBin "apply-darwin" ''
                 set -euox pipefail
                 pushd ~/.dotfiles
-                darwin-rebuild switch --flake ".#$1"
+                darwin-rebuild switch --flake ".#$1" |& ${pkgs.nix-output-monitor}/bin/nom --json
                 popd
               '')
 
