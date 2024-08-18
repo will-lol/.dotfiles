@@ -78,7 +78,7 @@
 
         darwinConfigurations = {
           macbook = inputs.nix-darwin.lib.darwinSystem {
-            system = "aarch64-linux";
+            system = "aarch64-darwin";
             modules = [
               ./darwin/macbook
               inputs.home-manager.darwinModules.home-manager
