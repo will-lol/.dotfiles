@@ -1,5 +1,6 @@
 {pkgs, ...}: {
   programs.direnv.enable = true;
+  programs.direnv.enableZshIntegration = true;
   nixpkgs.overlays = [
     (final: prev: {
       mkPrj = pkgs.writeShellScriptBin "mkPrj" ''
