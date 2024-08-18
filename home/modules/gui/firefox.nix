@@ -1,6 +1,11 @@
-{config, ...}: {
+{config, pkgs, ...}: {
   programs.firefox = {
     enable = true;
+    package = 
+      if pkgs.stdenv.hostPlatform.isDarwin then
+        pkgs.runCommand "firefox-0.0.0" {} "mkdir $out"
+      else 
+        pkgs.firefox;
     profiles.default = {
       settings = {
         "browser.toolbars.bookmarks.visibility" = "never";

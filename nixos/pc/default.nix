@@ -7,5 +7,6 @@
     ./dict.nix
     ./iossupport.nix
     ./printer.nix
+    ./zsh.nix
   ]; 
 }

@@ -11,6 +11,9 @@
 
     nur.url = "github:nix-community/NUR";
 
+    nix-homebrew.url = "github:zhaofengli-wip/nix-homebrew";
+    nix-homebrew.inputs.nixpkgs.follows = "nixpkgs";
+
     nixvim.url = "github:nix-community/nixvim";
     nixvim.inputs.nixpkgs.follows = "nixpkgs";
 
@@ -28,6 +31,9 @@
     microvm.url = "github:astro/microvm.nix";
     microvm.inputs.nixpkgs.follows = "nixpkgs";
 
+    mac-app-util.url = "github:hraban/mac-app-util";
+    mac-app-util.inputs.nixpkgs.follows = "nixpkgs";
+
     deploy-rs.url = "github:serokell/deploy-rs";
     deploy-rs.inputs.nixpkgs.follows = "nixpkgs";
   };
@@ -44,11 +50,18 @@
           inputs.nix-colors.homeManagerModules.default
         ];
 
-        homeManagerModulesExtended = [
+        homeManagerModulesDarwin = [
+          inputs.mac-app-util.homeManagerModules.default
+        ] ++ homeManagerModules;
+
+        homeManagerModulesLinux = [
           inputs.xremap-flake.homeManagerModules.default
           inputs.nix-flatpak.homeManagerModules.nix-flatpak
         ] ++ homeManagerModules;
+
         homeSharedModules = [ inputs.sops-nix.homeManagerModules.sops ];
+
+        darwinModules = [inputs.nix-homebrew.darwinModules.nix-homebrew];
 
         nixosModules =
           [ inputs.sops-nix.nixosModules.sops inputs.nix-flatpak.nixosModules.nix-flatpak ];
@@ -99,10 +112,10 @@
                           description = "The username of the user";
                         };
                     })
-                  ] ++ homeManagerModules;
+                  ] ++ homeManagerModulesDarwin;
                 };
               })
-            ];
+            ] ++ darwinModules;
           };
         };
 
@@ -130,7 +143,7 @@
                           description = "The username of the user";
                         };
                     })
-                  ] ++ homeManagerModulesExtended;
+                  ] ++ homeManagerModulesLinux;
                 };
               })
             ] ++ nixosModules;
@@ -167,7 +180,7 @@
                           description = "The username of the user";
                         };
                     })
-                  ] ++ homeManagerModulesExtended;
+                  ] ++ homeManagerModulesLinux;
                 };
               })
             ] ++ nixosModules;

@@ -1,6 +1,5 @@
 {
   imports = [
-    ./bash.nix
     ./rbw.nix
     ./direnv.nix
     ./spell.nix
@@ -9,5 +8,6 @@
     ./nvim.nix
     ./password.nix
     ./docker-ecr.nix
+    ./fzf.nix
   ];
 }

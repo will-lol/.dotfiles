@@ -10,6 +10,7 @@
     ../../modules/tui/linux
     ../../modules/wm
     ../../modules/gui
+    ../../modules/gui/linux
     ./home.nix
     ./touchpad-gesture.nix
     ./battery.nix

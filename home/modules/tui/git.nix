@@ -9,7 +9,6 @@
     userName = "will";
     extraConfig = {
       credential.helper = "${pkgs.git-credential-manager}/bin/git-credential-manager";
-      credential.credentialStore = "gpg";
       init.defaultBranch = "main";
     };
   };

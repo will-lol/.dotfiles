@@ -13,5 +13,7 @@
     ffmpeg
     unzip
     nix-output-monitor
+    ripgrep
+    jq
   ];
 }
