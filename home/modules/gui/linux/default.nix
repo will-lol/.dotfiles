@@ -1,6 +1,5 @@
 {
   imports = [
-    ./foot.nix
     ./okular.nix
     ./discord.nix
     ./packages.nix
