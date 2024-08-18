@@ -1,6 +1,6 @@
 {
   imports = [
     ./firefox.nix
-    ./wezterm.nix
+    ./alacritty.nix
   ];
 }
