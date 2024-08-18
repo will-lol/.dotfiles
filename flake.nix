@@ -76,7 +76,7 @@
               (pkgs.writeShellScriptBin "apply-darwin" ''
                 set -euox pipefail
                 pushd ~/.dotfiles
-                darwin-rebuild switch --flake ".#$1" |& ${pkgs.nix-output-monitor}/bin/nom --json
+                darwin-rebuild switch --flake ".#$1"
                 popd
               '')
 
