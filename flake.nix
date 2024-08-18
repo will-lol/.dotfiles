@@ -63,7 +63,7 @@
 
         homeSharedModules = [ inputs.sops-nix.homeManagerModules.sops ];
 
-        darwinModules = [inputs.nix-homebrew.darwinModules.nix-homebrew];
+        darwinModules = [inputs.brew-nix.darwinModules.default];
 
         nixosModules =
           [ inputs.sops-nix.nixosModules.sops inputs.nix-flatpak.nixosModules.nix-flatpak ];
