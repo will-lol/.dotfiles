@@ -1,4 +1,4 @@
-{config, pkgs, ...}: {
+{ config, pkgs, ... }: {
   users = {
     users = {
       ${config.username} = {
@@ -7,10 +7,6 @@
         group = "users";
       };
     };
-    groups = {
-      users = {
-        gid = 100;
-      };
-    };
+    groups = { users = { gid = 100; }; };
   };
 }

@@ -1,6 +1,1 @@
-{pkgs, ...}: {
-  programs.bash.enable = false;
-  environment.systemPackages = [
-    pkgs.brewCasks.slack
-  ];
-}
+{ pkgs, ... }: { programs.bash.enable = false; }

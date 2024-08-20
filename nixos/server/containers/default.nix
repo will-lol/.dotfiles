@@ -1,6 +1,1 @@
-{
-  imports = [
-    ./dufs.nix
-    ./pihole.nix
-  ];
-}
+{ imports = [ ./dufs.nix ./pihole.nix ]; }

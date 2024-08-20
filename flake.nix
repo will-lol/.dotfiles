@@ -41,34 +41,38 @@
     deploy-rs.inputs.nixpkgs.follows = "nixpkgs";
   };
 
-  outputs = { self, nixpkgs, ... } @inputs:
-      let
-        supportedSystems = ["x86_64-linux" "aarch64-darwin"];
+  outputs = { self, nixpkgs, ... }@inputs:
+    let
+      supportedSystems = [ "x86_64-linux" "aarch64-darwin" ];
 
-        lib = import ./lib.nix { inherit nixpkgs supportedSystems; };
+      lib = import ./lib.nix { inherit nixpkgs supportedSystems; };
 
-        homeManagerModules = [
-          inputs.nixvim.homeManagerModules.nixvim
-          inputs.nur.nixosModules.nur
-          inputs.nix-colors.homeManagerModules.default
-        ];
+      homeManagerModules = [
+        inputs.nixvim.homeManagerModules.nixvim
+        inputs.nur.nixosModules.nur
+        inputs.nix-colors.homeManagerModules.default
+      ];
 
-        homeManagerModulesDarwin = [
-        ] ++ homeManagerModules;
+      homeManagerModulesDarwin = [ ] ++ homeManagerModules;
 
-        homeManagerModulesLinux = [
-          inputs.xremap-flake.homeManagerModules.default
-          inputs.nix-flatpak.homeManagerModules.nix-flatpak
-        ] ++ homeManagerModules;
+      homeManagerModulesLinux = [
+        inputs.xremap-flake.homeManagerModules.default
+        inputs.nix-flatpak.homeManagerModules.nix-flatpak
+      ] ++ homeManagerModules;
 
-        homeSharedModules = [ inputs.sops-nix.homeManagerModules.sops ];
+      homeSharedModules = [ inputs.sops-nix.homeManagerModules.sops ];
 
-        darwinModules = [inputs.brew-nix.darwinModules.default];
+      darwinModules = [ inputs.brew-nix.darwinModules.default ./nixpkgs.nix ];
 
-        nixosModules =
-          [ inputs.sops-nix.nixosModules.sops inputs.nix-flatpak.nixosModules.nix-flatpak ];
-      in {
-        devShells = lib.forAllSupportedSystems (system: let pkgs = nixpkgs.legacyPackages.${system}; in {
+      nixosModules = [
+        inputs.sops-nix.nixosModules.sops
+        inputs.nix-flatpak.nixosModules.nix-flatpak
+        ./nixpkgs.nix
+      ];
+    in {
+      devShells = lib.forAllSupportedSystems (system:
+        let pkgs = nixpkgs.legacyPackages.${system};
+        in {
           default = pkgs.mkShell {
             packages = [
               (pkgs.writeShellScriptBin "apply-nixos" ''
@@ -82,6 +86,7 @@
               (pkgs.writeShellScriptBin "apply-darwin" ''
                 set -euox pipefail
                 pushd ~/.dotfiles
+                rm -f ~/Library/Application\ Support/Firefox/Profiles/default/search.json.mozlz4
                 darwin-rebuild switch --flake ".#$1"
                 popd
               '')
@@ -91,115 +96,116 @@
           };
         });
 
-        darwinConfigurations = {
-          macbook = inputs.nix-darwin.lib.darwinSystem {
-            system = "aarch64-darwin";
-            modules = [
-              ./darwin/macbook
-              inputs.home-manager.darwinModules.home-manager
-              ({ config, ... }: {
-                home-manager = {
-                  useUserPackages = true;
-                  sharedModules = homeSharedModules;
-                  extraSpecialArgs = {
-                    nix-colors = inputs.nix-colors;
-                  };
-                  users.${config.username}.imports = [ 
-                    ./home/hosts/macbook
-                    ({ pkgs, ... }: {
-                      options.username = with pkgs.lib;
-                        mkOption {
-                          type = types.str;
-                          default = config.username;
-                          description = "The username of the user";
-                        };
-                    })
-                  ] ++ homeManagerModulesDarwin;
+      darwinConfigurations = {
+        macbook = inputs.nix-darwin.lib.darwinSystem {
+          system = "aarch64-darwin";
+          modules = [
+            ./darwin/macbook
+            inputs.home-manager.darwinModules.home-manager
+            ({ config, ... }: {
+              home-manager = {
+                useUserPackages = true;
+                useGlobalPkgs = true;
+                sharedModules = homeSharedModules;
+                extraSpecialArgs = { nix-colors = inputs.nix-colors; };
+                users.${config.username}.imports = [
+                  ./home/hosts/macbook
+                  ({ pkgs, ... }: {
+                    options.username = with pkgs.lib;
+                      mkOption {
+                        type = types.str;
+                        default = config.username;
+                        description = "The username of the user";
+                      };
+                  })
+                ] ++ homeManagerModulesDarwin;
+              };
+            })
+          ] ++ darwinModules;
+        };
+      };
+
+      nixosConfigurations = {
+        desktop = nixpkgs.lib.nixosSystem {
+          system = "x86_64-linux";
+          modules = [
+            ./nixos/desktop
+            inputs.home-manager.nixosModules.home-manager
+            ({ config, ... }: {
+              home-manager = {
+                useUserPackages = true;
+                useGlobalPkgs = true;
+                sharedModules = homeSharedModules;
+                extraSpecialArgs = {
+                  nix-colors = inputs.nix-colors;
+                  xremap-flake = inputs.xremap-flake;
                 };
-              })
-            ] ++ darwinModules;
-          };
+                users.${config.username}.imports = [
+                  ./home/hosts/desktop
+                  ({ pkgs, ... }: {
+                    options.username = with pkgs.lib;
+                      mkOption {
+                        type = types.str;
+                        default = config.username;
+                        description = "The username of the user";
+                      };
+                  })
+                ] ++ homeManagerModulesLinux;
+              };
+            })
+          ] ++ nixosModules;
         };
 
-        nixosConfigurations = {
-          desktop = nixpkgs.lib.nixosSystem {
-            system = "x86_64-linux";
-            modules = [
-              ./nixos/desktop
-              inputs.home-manager.nixosModules.home-manager
-              ({ config, ... }: {
-                home-manager = {
-                  useUserPackages = true;
-                  sharedModules = homeSharedModules;
-                  extraSpecialArgs = {
-                    nix-colors = inputs.nix-colors;
-                    xremap-flake = inputs.xremap-flake;
-                  };
-                  users.${config.username}.imports = [
-                    ./home/hosts/desktop
-                    ({ pkgs, ... }: {
-                      options.username = with pkgs.lib;
-                        mkOption {
-                          type = types.str;
-                          default = config.username;
-                          description = "The username of the user";
-                        };
-                    })
-                  ] ++ homeManagerModulesLinux;
-                };
-              })
-            ] ++ nixosModules;
-          };
-
-          server = nixpkgs.lib.nixosSystem {
-            system = "x86_64-linux";
-            modules = [
-              ./nixos/server
-              # microvm.nixosModules.microvm
-            ] ++ nixosModules;
-          };
-
-          laptop = nixpkgs.lib.nixosSystem {
-            system = "x86_64-linux";
-            modules = [
-              ./nixos/laptop
-              inputs.home-manager.nixosModules.home-manager
-              ({ config, ... }: {
-                home-manager = {
-                  useUserPackages = true;
-                  sharedModules = homeSharedModules;
-                  extraSpecialArgs = {
-                    nix-colors = inputs.nix-colors;
-                    xremap-flake = inputs.xremap-flake;
-                  };
-                  users.${config.username}.imports = [
-                    ./home/hosts/laptop
-                    ({ pkgs, ... }: {
-                      options.username = with pkgs.lib;
-                        mkOption {
-                          type = types.str;
-                          default = config.username;
-                          description = "The username of the user";
-                        };
-                    })
-                  ] ++ homeManagerModulesLinux;
-                };
-              })
-            ] ++ nixosModules;
-          };
+        server = nixpkgs.lib.nixosSystem {
+          system = "x86_64-linux";
+          modules = [
+            ./nixos/server
+            # microvm.nixosModules.microvm
+          ] ++ nixosModules;
         };
 
-        deploy.nodes.server = {
-          hostname = "server.squeaker-eel.ts.net";
-          fastConnection = true;
-          profiles = {
-            system = {
-              sshUser = "admin";
-              path = inputs.deploy-rs.lib.x86_64-linux.activate.nixos
-                self.nixosConfigurations.server;
-              user = "root";
-            };
+        laptop = nixpkgs.lib.nixosSystem {
+          system = "x86_64-linux";
+          modules = [
+            ./nixos/laptop
+            inputs.home-manager.nixosModules.home-manager
+            ({ config, ... }: {
+              home-manager = {
+                useUserPackages = true;
+                useGlobalPkgs = true;
+                sharedModules = homeSharedModules;
+                extraSpecialArgs = {
+                  nix-colors = inputs.nix-colors;
+                  xremap-flake = inputs.xremap-flake;
+                };
+                users.${config.username}.imports = [
+                  ./home/hosts/laptop
+                  ({ pkgs, ... }: {
+                    options.username = with pkgs.lib;
+                      mkOption {
+                        type = types.str;
+                        default = config.username;
+                        description = "The username of the user";
+                      };
+                  })
+                ] ++ homeManagerModulesLinux;
+              };
+            })
+          ] ++ nixosModules;
+        };
+      };
+
+      deploy.nodes.server = {
+        hostname = "server.squeaker-eel.ts.net";
+        fastConnection = true;
+        profiles = {
+          system = {
+            sshUser = "admin";
+            path = inputs.deploy-rs.lib.x86_64-linux.activate.nixos
+              self.nixosConfigurations.server;
+            user = "root";
           };
         };
       };
+    };
 }

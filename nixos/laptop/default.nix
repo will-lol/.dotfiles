@@ -1,4 +1,4 @@
-{pkgs, ...}: {
+{ pkgs, ... }: {
   imports = [
     ./hardware.nix
     ./networking.nix
@@ -9,13 +9,12 @@
     ../pc
   ];
 
-  options.username = with pkgs.lib; mkOption {
-    type = types.str;
-    default = "will";
-    description = "The username of the default/main admin user";
-  };
+  options.username = with pkgs.lib;
+    mkOption {
+      type = types.str;
+      default = "will";
+      description = "The username of the default/main admin user";
+    };
 
-  config = {
-    system.stateVersion = "23.11";
-  };
+  config = { system.stateVersion = "23.11"; };
 }

@@ -1,6 +1,3 @@
-{pkgs, ...}: {
-  environment.systemPackages = with pkgs; [
-    libimobiledevice
-    ifuse
-  ];
+{ pkgs, ... }: {
+  environment.systemPackages = with pkgs; [ libimobiledevice ifuse ];
 }

@@ -1,3 +1,1 @@
-{pkgs, config, ...}: {
-	brew-nix.enable = true;
-}
+{ pkgs, config, ... }: { brew-nix.enable = true; }

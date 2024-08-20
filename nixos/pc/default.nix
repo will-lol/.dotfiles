@@ -8,5 +8,5 @@
     ./iossupport.nix
     ./printer.nix
     ./zsh.nix
-  ]; 
+  ];
 }

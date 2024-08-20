@@ -1,4 +1,4 @@
-{config, pkgs, ...}: {
+{ config, pkgs, ... }: {
   users = {
     users = {
       ${config.username} = {
@@ -8,10 +8,6 @@
         shell = pkgs.zsh;
       };
     };
-    groups = {
-      users = {
-        gid = 100;
-      };
-    };
+    groups = { users = { gid = 100; }; };
   };
 }
