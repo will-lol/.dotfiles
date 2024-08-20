@@ -3,23 +3,21 @@
     enable = true;
     settings = {
       keyboard = {
-        bindings = [
-          {
-            key = "Return";
-            mods = "Super";
-            action = "SpawnNewInstance";
-          }
-        ];
+        bindings = [{
+          key = "Return";
+          mods = "Super";
+          action = "SpawnNewInstance";
+        }];
       };
       colors = {
-        primary = { 
+        primary = {
           background = "0x${config.colorScheme.palette.base00}";
           foreground = "0x${config.colorScheme.palette.base05}";
-        };  
+        };
         cursor = {
           text = "0x${config.colorScheme.palette.base00}";
           cursor = "0x${config.colorScheme.palette.base05}";
-        };  
+        };
         normal = {
           black = "0x${config.colorScheme.palette.base00}";
           red = "0x${config.colorScheme.palette.base08}";
@@ -40,7 +38,7 @@
           cyan = "0x${config.colorScheme.palette.base0C}";
           white = "0x${config.colorScheme.palette.base07}";
         };
-      };	  
+      };
     };
   };
 }

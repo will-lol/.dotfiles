@@ -1,16 +1,8 @@
-{
-  pkgs,
-  config,
-  ...
-}: {
-  home.packages = with pkgs; [
-    tofi
-  ];
+{ pkgs, config, ... }: {
+  home.packages = with pkgs; [ tofi ];
 
   wayland.windowManager.hyprland.settings = {
-    bindr = [
-      "SUPER, D, exec, tofi-drun | xargs hyprctl dispatch exec --"
-    ];
+    bindr = [ "SUPER, D, exec, tofi-drun | xargs hyprctl dispatch exec --" ];
   };
 
   home.file = {

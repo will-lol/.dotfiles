@@ -1,4 +1,4 @@
-{pkgs, ...}: {
+{ pkgs, ... }: {
   programs.direnv.enable = true;
   programs.direnv.enableZshIntegration = true;
   nixpkgs.overlays = [
@@ -17,5 +17,5 @@
       '';
     })
   ];
-  home.packages = with pkgs; [mkPrj];
+  home.packages = with pkgs; [ mkPrj ];
 }

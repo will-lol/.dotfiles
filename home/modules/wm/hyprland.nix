@@ -1,38 +1,44 @@
-{
-  pkgs,
-  config,
-  ...
-}: {
-  home.packages = with pkgs; [wl-clipboard hyprpicker swaybg swayimg playerctl];
+{ pkgs, config, ... }: {
+  home.packages = with pkgs; [
+    wl-clipboard
+    hyprpicker
+    swaybg
+    swayimg
+    playerctl
+  ];
 
   wayland.windowManager.hyprland = {
     enable = true;
     settings = {
       animations.enabled = false;
       misc.disable_hyprland_logo = true;
-      bind =
-        [
-          "SUPER, Return, exec, alacritty"
+      bind = [
+        "SUPER, Return, exec, alacritty"
 
-          "SUPER, H, movefocus, l"
-          "SUPER, L, movefocus, r"
-          "SUPER, K, movefocus, u"
-          "SUPER, J, movefocus, d"
+        "SUPER, H, movefocus, l"
+        "SUPER, L, movefocus, r"
+        "SUPER, K, movefocus, u"
+        "SUPER, J, movefocus, d"
 
-          "SUPER ALT, H, movewindow, l"
-          "SUPER ALT, L, movewindow, r"
-          "SUPER ALT, K, movewindow, u"
-          "SUPER ALT, J, movewindow, d"
+        "SUPER ALT, H, movewindow, l"
+        "SUPER ALT, L, movewindow, r"
+        "SUPER ALT, K, movewindow, u"
+        "SUPER ALT, J, movewindow, d"
 
-          "SUPER SHIFT, Q, killactive"
+        "SUPER SHIFT, Q, killactive"
 
-          "SUPER, mouse_down, workspace, e+1"
-          "SUPER, mouse_up, workspace, e-1"
-        ]
-        ++ (builtins.concatLists (builtins.genList (x: ["SUPER, ${toString (x + 1)}, workspace, ${toString (x + 1)}"]) 9))
-        ++ (builtins.concatLists (builtins.genList (x: ["SUPER SHIFT, ${toString (x + 1)}, movetoworkspacesilent, ${toString (x + 1)}"]) 9));
+        "SUPER, mouse_down, workspace, e+1"
+        "SUPER, mouse_up, workspace, e-1"
+      ] ++ (builtins.concatLists (builtins.genList
+        (x: [ "SUPER, ${toString (x + 1)}, workspace, ${toString (x + 1)}" ])
+        9)) ++ (builtins.concatLists (builtins.genList (x:
+          [
+            "SUPER SHIFT, ${toString (x + 1)}, movetoworkspacesilent, ${
+              toString (x + 1)
+            }"
+          ]) 9));
 
-      bindm = ["SUPER, mouse:272, movewindow"];
+      bindm = [ "SUPER, mouse:272, movewindow" ];
 
       general = {
         "col.inactive_border" = "rgb(${config.colorScheme.palette.base04})";

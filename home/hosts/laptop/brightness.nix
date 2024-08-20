@@ -1,8 +1,4 @@
-{
-  pkgs,
-  config,
-  ...
-}: {
+{ pkgs, config, ... }: {
   home.file = {
     ".config/wob/brightness.ini".text = ''
       anchor = bottom
@@ -17,8 +13,10 @@
     '';
   };
   wayland.windowManager.hyprland.settings = {
-    env = ["WOBSOCK_BRIGHTNESS,$XDG_RUNTIME_DIR/brightness.sock"];
-    exec-once = ["rm -f $WOBSOCK_BRIGHTNESS && mkfifo $WOBSOCK_BRIGHTNESS && tail -f $WOBSOCK_BRIGHTNESS | ${pkgs.wob}/bin/wob -c ~/.config/wob/brightness.ini"];
+    env = [ "WOBSOCK_BRIGHTNESS,$XDG_RUNTIME_DIR/brightness.sock" ];
+    exec-once = [
+      "rm -f $WOBSOCK_BRIGHTNESS && mkfifo $WOBSOCK_BRIGHTNESS && tail -f $WOBSOCK_BRIGHTNESS | ${pkgs.wob}/bin/wob -c ~/.config/wob/brightness.ini"
+    ];
     binde = [
       ",XF86MonBrightnessDown, exec, ${pkgs.brightnessctl}/bin/brightnessctl set 2%- && ${pkgs.kalker}/bin/kalker trunc\\($(${pkgs.brightnessctl}/bin/brightnessctl g)/$(${pkgs.brightnessctl}/bin/brightnessctl m)*100\\) > $WOBSOCK_BRIGHTNESS"
       ",XF86MonBrightnessUp, exec, ${pkgs.brightnessctl}/bin/brightnessctl set 2%+ && ${pkgs.kalker}/bin/kalker trunc\\($(${pkgs.brightnessctl}/bin/brightnessctl g)/$(${pkgs.brightnessctl}/bin/brightnessctl m)*100\\) > $WOBSOCK_BRIGHTNESS"

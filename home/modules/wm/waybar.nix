@@ -1,7 +1,5 @@
-{config, ...}: {
-  wayland.windowManager.hyprland = {
-    settings.exec-once = ["waybar"];
-  };
+{ config, ... }: {
+  wayland.windowManager.hyprland = { settings.exec-once = [ "waybar" ]; };
   programs.waybar = {
     enable = true;
     settings = {
@@ -9,9 +7,9 @@
         layer = "top";
         position = "top";
         height = 30;
-        modules-left = ["hyprland/workspaces"];
-        modules-center = ["clock"];
-        modules-right = ["cpu" "memory"];
+        modules-left = [ "hyprland/workspaces" ];
+        modules-center = [ "clock" ];
+        modules-right = [ "cpu" "memory" ];
         clock = {
           format = "{:%H:%M}";
           tooltip = true;

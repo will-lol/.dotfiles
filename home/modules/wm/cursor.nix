@@ -1,4 +1,4 @@
-{pkgs, ...}: {
+{ pkgs, ... }: {
   home.pointerCursor = {
     package = pkgs.apple-cursor;
     name = "macOS-Monterey";
@@ -6,7 +6,7 @@
     x11.enable = true;
   };
   wayland.windowManager.hyprland.settings = {
-    env = ["WLR_NO_HARDWARE_CURSORS,1"];
-    exec-once = ["hyprctl setcursor macOS-Monterey 24"];
+    env = [ "WLR_NO_HARDWARE_CURSORS,1" ];
+    exec-once = [ "hyprctl setcursor macOS-Monterey 24" ];
   };
 }

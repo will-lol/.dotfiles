@@ -1,5 +1,5 @@
-{pkgs, ...}: {
-  home.packages = with pkgs; [okular];
+{ pkgs, ... }: {
+  home.packages = with pkgs; [ okular ];
 
   # xdg.desktopEntries = {
   #   okular = {

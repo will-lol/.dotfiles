@@ -1,6 +1,1 @@
-{
-  imports = [
-    ./firefox.nix
-    ./alacritty.nix
-  ];
-}
+{ imports = [ ./firefox.nix ./alacritty.nix ]; }

@@ -1,16 +1,10 @@
-{
-  pkgs,
-  config,
-  ...
-}: {
+{ pkgs, config, ... }: {
   home.packages = with pkgs; [
     tree-sitter
     nodePackages.vscode-langservers-extracted
   ];
 
-  home.sessionVariables = {
-    EDITOR = "nvim";
-  };
+  home.sessionVariables = { EDITOR = "nvim"; };
 
   programs.nixvim = {
     enable = true;
@@ -20,15 +14,13 @@
     autoCmd = [
       {
         event = "BufWritePre";
-        callback = { __raw = "function() vim.lsp.buf.format { async = false } end"; };
+        callback = {
+          __raw = "function() vim.lsp.buf.format { async = false } end";
+        };
       }
       {
         event = "FileType";
-        pattern = [
-          "tex"
-          "latex"
-          "markdown"
-        ];
+        pattern = [ "tex" "latex" "markdown" ];
         command = "setlocal spell";
       }
     ];
@@ -38,31 +30,27 @@
       maplocalleader = " ";
     };
 
-    filetype = {
-      extension = {
-        templ = "templ";
-      };
-    };
+    filetype = { extension = { templ = "templ"; }; };
 
     keymaps = [
       {
-        mode = ["v"];
+        mode = [ "v" ];
         key = "J";
         action = ":m '>+1<CR>gv=gv";
       }
       {
-        mode = ["v"];
+        mode = [ "v" ];
         key = "K";
         action = ":m '<-2<CR>gv=gv";
       }
       {
-        mode = ["n" "v"];
+        mode = [ "n" "v" ];
         key = "<Space>";
         action = "<Nop>";
         options.silent = true;
       }
       {
-        mode = ["n"];
+        mode = [ "n" ];
         key = "k";
         action = "v:count == 0 ? 'gk' : 'k'";
         options = {
@@ -71,7 +59,7 @@
         };
       }
       {
-        mode = ["n"];
+        mode = [ "n" ];
         key = "j";
         action = "v:count == 0 ? 'gj' : 'j'";
         options = {
@@ -83,13 +71,11 @@
 
     colorschemes.tokyonight = {
       enable = true;
-      settings = {
-        style = "storm";
-      };
+      settings = { style = "storm"; };
     };
 
     opts = {
-      completeopt = ["menu" "menuone" "noselect"];
+      completeopt = [ "menu" "menuone" "noselect" ];
       cursorline = true;
       number = true;
       relativenumber = true;
@@ -112,15 +98,11 @@
     };
 
     plugins = {
-      which-key = {
-        enable = true;
-      };
+      which-key = { enable = true; };
       copilot-vim = {
         enable = true;
         settings = {
-          filetypes = {
-            "*" = true;
-          };
+          filetypes = { "*" = true; };
           nodeCommand = "${pkgs.nodejs_22}/bin/node";
         };
       };
@@ -129,42 +111,43 @@
         autoEnableSources = true;
 
         settings = {
-          snippet.expand = "function(args) require('luasnip').lsp_expand(args.body) end";
+          snippet.expand =
+            "function(args) require('luasnip').lsp_expand(args.body) end";
 
           mapping = {
             "<C-n>" = "cmp.mapping.select_next_item()";
             "<C-p>" = "cmp.mapping.select_prev_item()";
             "<C-Space>" = "cmp.mapping.complete {}";
-            "<CR>" = ''              cmp.mapping.confirm {
+            "<CR>" = ''
+              cmp.mapping.confirm {
               	      behavior = cmp.ConfirmBehavior.Replace,
               	      select = true,
               	    }'';
-            "<Tab>" = "cmp.mapping(function(fallback) if cmp.visible() then cmp.select_next_item() else fallback() end end, { 'i', 's' })";
-            "<S-Tab>" = "cmp.mapping(function(fallback) if cmp.visible() then cmp.select_prev_item() else fallback() end end, { 'i', 's' })";
+            "<Tab>" =
+              "cmp.mapping(function(fallback) if cmp.visible() then cmp.select_next_item() else fallback() end end, { 'i', 's' })";
+            "<S-Tab>" =
+              "cmp.mapping(function(fallback) if cmp.visible() then cmp.select_prev_item() else fallback() end end, { 'i', 's' })";
           };
           sources = [
-            {name = "luasnip";}
-            {name = "nvim_lsp";}
-            {name = "path";}
-            {name = "nvim_lsp_signature_help";}
+            { name = "luasnip"; }
+            { name = "nvim_lsp"; }
+            { name = "path"; }
+            { name = "nvim_lsp_signature_help"; }
             {
               name = "buffer";
-              option.get_bufnrs.__raw = "vim.api.nvim_list_bufs"; # Words from other buffers are suggested
+              option.get_bufnrs.__raw =
+                "vim.api.nvim_list_bufs"; # Words from other buffers are suggested
             }
           ];
 
-          completion.autocomplete = ["TextChanged"];
+          completion.autocomplete = [ "TextChanged" ];
         };
       };
       cmp-nvim-lsp.enable = true;
       cmp-nvim-lsp-signature-help.enable = true;
 
-      luasnip = {
-        enable = true;
-      };
-      fugitive = {
-        enable = true;
-      };
+      luasnip = { enable = true; };
+      fugitive = { enable = true; };
       lualine = {
         enable = true;
         componentSeparators = {
@@ -176,22 +159,18 @@
           right = "";
         };
       };
-      indent-blankline = {
-        enable = true;
-      };
-      comment = {
-        enable = true;
-      };
+      indent-blankline = { enable = true; };
+      comment = { enable = true; };
 
       gitsigns = {
         enable = true;
         settings = {
           signs = {
-            add = {text = "+";};
-            change = {text = "~";};
-            delete = {text = "_";};
-            topdelete = {text = "‾";};
-            changedelete = {text = "~";};
+            add = { text = "+"; };
+            change = { text = "~"; };
+            delete = { text = "_"; };
+            topdelete = { text = "‾"; };
+            changedelete = { text = "~"; };
           };
         };
       };
@@ -213,19 +192,18 @@
         enable = true;
         nixvimInjections = true;
 
-        settings = {
-          indent.enable = true;
-        };
+        settings = { indent.enable = true; };
 
-        grammarPackages = with config.programs.nixvim.plugins.treesitter.package.builtGrammars; [
-          templ
-          bash
-          javascript
-          nix
-          lua
-          go
-          rust
-        ];
+        grammarPackages =
+          with config.programs.nixvim.plugins.treesitter.package.builtGrammars; [
+            templ
+            bash
+            javascript
+            nix
+            lua
+            go
+            rust
+          ];
       };
       treesitter-textobjects.enable = true;
       lsp = {
@@ -244,9 +222,7 @@
             enable = true;
             package = null;
           };
-          jsonls = {
-            enable = true;
-          };
+          jsonls = { enable = true; };
           rust-analyzer = {
             enable = true;
             installCargo = false;
@@ -276,12 +252,8 @@
           };
         };
       };
-      fidget = {
-        enable = true;
-      };
-      nvim-autopairs = {
-        enable = true;
-      };
+      fidget = { enable = true; };
+      nvim-autopairs = { enable = true; };
       telescope = {
         enable = true;
         extensions.fzf-native.enable = true;
@@ -301,6 +273,11 @@
         };
       };
     };
-    extraPlugins = with pkgs.vimPlugins; [neodev-nvim vim-rhubarb vim-sleuth plenary-nvim];
+    extraPlugins = with pkgs.vimPlugins; [
+      neodev-nvim
+      vim-rhubarb
+      vim-sleuth
+      plenary-nvim
+    ];
   };
 }

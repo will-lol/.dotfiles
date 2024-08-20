@@ -1,8 +1,8 @@
-{pkgs, ...}: {
+{ pkgs, ... }: {
   fonts.fontconfig.enable = true;
 
   home.packages = with pkgs; [
-    (nerdfonts.override {fonts = ["FiraCode"];})
+    (nerdfonts.override { fonts = [ "FiraCode" ]; })
     liberation_ttf
     libre-franklin
     libre-baskerville

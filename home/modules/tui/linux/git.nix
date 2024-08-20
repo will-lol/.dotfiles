@@ -1,5 +1,1 @@
-{
-  programs.git.extraConfig = {
-    credential.credentialStore = "gpg";
-  };
-}
+{ programs.git.extraConfig = { credential.credentialStore = "gpg"; }; }

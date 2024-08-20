@@ -1,12 +1,10 @@
-{pkgs, config, ...}: {
+{ pkgs, config, ... }: {
   programs.zsh = {
     enable = true;
     autosuggestion.enable = true;
     enableCompletion = true;
     defaultKeymap = "viins";
-    sessionVariables = {
-      DIRENV_LOG_FORMAT = null;
-    };
+    sessionVariables = { DIRENV_LOG_FORMAT = null; };
 
     shellAliases = {
       calc = "kalker";

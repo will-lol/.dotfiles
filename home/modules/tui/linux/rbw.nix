@@ -1,4 +1,4 @@
-{pkgs, config, ...}: {
+{ pkgs, config, ... }: {
   programs.rbw = {
     enable = true;
     settings = {
@@ -10,15 +10,15 @@
   systemd.user.services.rbw-auth = {
     Unit = {
       Description = "Authenticate with Bitwarden for rbw cli";
-      After = ["sops-nix.service"];
+      After = [ "sops-nix.service" ];
     };
-    Install = {
-      WantedBy = ["default.target"];
-    };
+    Install = { WantedBy = [ "default.target" ]; };
     Service = {
       ExecStart = pkgs.writeShellScript "rbw-login" ''
         export CLIENT_ID=$(< ${config.sops.secrets."bitwarden/client_id".path})
-        export CLIENT_SECRET=$(< ${config.sops.secrets."bitwarden/client_secret".path})
+        export CLIENT_SECRET=$(< ${
+          config.sops.secrets."bitwarden/client_secret".path
+        })
 
         ${pkgs.expect}/bin/expect -c "spawn rbw register
         expect \"API key client__id: \"
@@ -30,6 +30,6 @@
         unset CLIENT_SECRET
       '';
     };
-    
+
   };
 }
