@@ -2,7 +2,13 @@
   programs.firefox = {
     enable = true;
     package = if pkgs.stdenv.hostPlatform.isDarwin then
-      pkgs.brewCasks.firefox
+      (pkgs.brewCasks.firefox.overrideAttrs (old: {
+        nativeBuildInputs = old.nativeBuildInputs ++ [pkgs.xmlstarlet];
+        fixupPhase = ''
+          xmlstarlet ed -L -s "//key[contains(text(), 'LSEnvironment')]/following-sibling::dict[1]" -t "elem" -n "key" -v "MOZ_LEGACY_PROFILES" "$out/Applications/Firefox.app/Contents/Info.plist"
+          xmlstarlet ed -L -s "//key[contains(text(), 'LSEnvironment')]/following-sibling::dict[1]" -t "elem" -n "string" -v "true" "$out/Applications/Firefox.app/Contents/Info.plist"
+        '';
+      }))
     else
       pkgs.firefox;
     profiles.default = {

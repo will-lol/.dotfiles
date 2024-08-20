@@ -9,6 +9,12 @@
           action = "SpawnNewInstance";
         }];
       };
+      font = {
+        normal = {
+          family = "FiraCode Nerd Font";
+        };
+        
+      };
       colors = {
         primary = {
           background = "0x${config.colorScheme.palette.base00}";
