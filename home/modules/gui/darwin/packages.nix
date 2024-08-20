@@ -1,3 +1,1 @@
-{ pkgs, ... }: {
-  home.packages = with pkgs; [ brewCasks.firefox brewCasks.slack ];
-}
+{ pkgs, ... }: { home.packages = with pkgs; [ brewCasks.slack ]; }
