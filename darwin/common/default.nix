@@ -7,5 +7,6 @@
     ./packages.nix
     ./security.nix
     ./settings.nix
+    ./windows.nix
   ];
 }

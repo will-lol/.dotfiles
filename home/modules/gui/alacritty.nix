@@ -6,14 +6,12 @@
         bindings = [{
           key = "Return";
           mods = "Super";
-          action = "SpawnNewInstance";
+          action = "CreateNewWindow";
         }];
       };
       font = {
-        normal = {
-          family = "FiraCode Nerd Font";
-        };
-        
+        normal = { family = "FiraCode Nerd Font"; };
+
       };
       colors = {
         primary = {

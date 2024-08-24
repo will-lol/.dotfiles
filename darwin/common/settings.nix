@@ -2,6 +2,12 @@
   system.defaults = {
     screencapture.location = "/tmp";
 
+    dock = {
+      autohide = true;
+      autohide-delay = 1000.0;
+      persistent-apps = [ ];
+    };
+
     CustomUserPreferences = {
       "com.apple.finder".NewWindowTargetPath =
         "file:///Users/${config.username}/";
