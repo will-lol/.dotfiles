@@ -15,5 +15,6 @@
     nix-output-monitor
     ripgrep
     jq
+    devenv
   ];
 }

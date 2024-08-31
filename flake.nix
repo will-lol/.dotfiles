@@ -55,8 +55,9 @@
         inputs.nix-colors.homeManagerModules.default
       ];
 
-      homeManagerModulesDarwin =
-        [ inputs.mac-app-util.homeManagerModules.default ]
+      homeManagerModulesDarwin = [ 
+        inputs.mac-app-util.homeManagerModules.default 
+      ]
         ++ homeManagerModules;
 
       homeManagerModulesLinux = [
@@ -64,7 +65,7 @@
         inputs.nix-flatpak.homeManagerModules.nix-flatpak
       ] ++ homeManagerModules;
 
-      homeSharedModules = [ inputs.sops-nix.homeManagerModules.sops ];
+      homeSharedModulesLinux = [ inputs.sops-nix.homeManagerModules.sops ];
 
       darwinModules = [
         inputs.brew-nix.darwinModules.default
@@ -114,8 +115,7 @@
               home-manager = {
                 useUserPackages = true;
                 useGlobalPkgs = true;
-                sharedModules = homeSharedModules;
-                extraSpecialArgs = { nix-colors = inputs.nix-colors; };
+                extraSpecialArgs = { nix-colors = inputs.nix-colors; sops-nix = inputs.sops-nix; };
                 users.${config.username}.imports = [
                   ./home/hosts/macbook
                   ({ pkgs, ... }: {
@@ -143,7 +143,7 @@
               home-manager = {
                 useUserPackages = true;
                 useGlobalPkgs = true;
-                sharedModules = homeSharedModules;
+                sharedModules = homeSharedModulesLinux;
                 extraSpecialArgs = {
                   nix-colors = inputs.nix-colors;
                   xremap-flake = inputs.xremap-flake;
@@ -181,7 +181,7 @@
               home-manager = {
                 useUserPackages = true;
                 useGlobalPkgs = true;
-                sharedModules = homeSharedModules;
+                sharedModules = homeSharedModulesLinux;
                 extraSpecialArgs = {
                   nix-colors = inputs.nix-colors;
                   xremap-flake = inputs.xremap-flake;

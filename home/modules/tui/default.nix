@@ -9,5 +9,6 @@
     ./docker-ecr.nix
     ./fzf.nix
     ./zsh.nix
+    ./ssh.nix
   ];
 }

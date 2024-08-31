@@ -108,6 +108,14 @@
         firefox-translations
         vimium
         bitwarden
+        (buildFirefoxXpiAddon {
+          pname = "what-to-click";
+          version = "1.12.5";
+          addonId = "{7feef224-a737-4d04-b0c1-ea47d4cad70a}";
+          url = "https://addons.mozilla.org/firefox/downloads/file/4159230/what_to_click-1.12.5.xpi";
+          sha256 = "8eccdf9d8ece5cc759f77b7628201590d57a98cc8d2335666a38bfef87fc0e4e";
+          meta = {};
+        })
       ];
       search.force = true;
       search.engines = {

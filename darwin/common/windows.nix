@@ -37,7 +37,7 @@
 
       ${(builtins.concatStringsSep "\n" (builtins.genList (x: ''
         yabai -m space --create
-      '') 9))}
+      '') 8))}
     '';
   };
 
@@ -79,6 +79,17 @@ in {
         "shift + alt - ${builtins.toString (x + 1)} : yabai -m window --space ${
           builtins.toString (x + 1)
         }") 9)}
+
+      # resize mode
+      :: resize @ : yabai -m config active_window_opacity 1; yabai -m config normal_window_opacity 0.9;
+      alt - r ; resize
+      resize < escape ; default
+      resize < alt -r ; default
+      resize < backspace : yabai -m space --balance
+      resize < h : yabai -m window --resize right:-20:0 2> /dev/null || yabai -m window --resize left:-20:0 2> /dev/null
+      resize < l : yabai -m window --resize right:20:0 2> /dev/null || yabai -m window --resize left:20:0 2> /dev/null
+      resize < k : yabai -m window --resize bottom:0:-20 2> /dev/null || yabai -m window --resize top:0:-20 2> /dev/null
+      resize < j : yabai -m window --resize bottom:0:20 2> /dev/null || yabai -m window --resize top:0:20 2> /dev/null
     '';
   };
 
